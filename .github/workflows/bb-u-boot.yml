@@ -85,5 +85,31 @@ jobs:
         with:
           name: ${{ matrix.boards.name }}
           path: |
-            u-boot/u-boot-rockchip.bin
-            u-boot/u-boot-rockchip-spi.bin
+            u-boot/u-boot*
+            u-boot/idbloader.img
+            u-boot/idbloader-spi.img
+
+
+
+-rw-r--r--   1 runner docker  206848 Nov 29 14:27 idbloader-spi.img
+-rw-r--r--   1 runner docker  206848 Nov 29 14:27 idbloader.img
+-rwxr-xr-x   1 runner docker 8111136 Nov 29 14:27 u-boot
+-rw-r--r--   1 runner docker  957552 Nov 29 14:27 u-boot-dtb.bin
+-rw-r--r--   1 runner docker  958568 Nov 29 14:27 u-boot-dtb.img
+-rwxr-xr-x   1 runner docker  861056 Nov 29 14:27 u-boot-nodtb.bin
+-rw-r--r--   1 runner docker 1603072 Nov 29 14:27 u-boot-rockchip-spi.bin
+-rw-r--r--   1 runner docker 9565696 Nov 29 14:27 u-boot-rockchip.bin
+-rw-r--r--   1 runner docker    5037 Nov 29 14:27 u-boot-spl.dtb.out
+-rw-r--r--   1 runner docker  957552 Nov 29 14:27 u-boot.bin
+-rw-r--r--   1 runner docker   18168 Nov 29 14:26 u-boot.cfg
+-rw-r--r--   1 runner docker   96496 Nov 29 14:27 u-boot.dtb
+-rw-r--r--   1 runner docker   97570 Nov 29 14:27 u-boot.dtb.out
+-rw-r--r--   1 runner docker  958568 Nov 29 14:27 u-boot.img
+-rw-r--r--   1 runner docker 1209856 Nov 29 14:27 u-boot.itb
+-rw-r--r--   1 runner docker    1350 Nov 29 14:27 u-boot.lds
+-rw-r--r--   1 runner docker 1180187 Nov 29 14:27 u-boot.map
+-rwxr-xr-x   1 runner docker 2475668 Nov 29 14:27 u-boot.srec
+-rw-r--r--   1 runner docker  318755 Nov 29 14:27 u-boot.sym
+
+
+
