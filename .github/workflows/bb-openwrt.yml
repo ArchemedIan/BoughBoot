@@ -75,6 +75,11 @@ jobs:
               make -j$(nproc) 'IGNORE_ERRORS=n m'
               rm -rf bin/targets/rockchip/armv8/packages
               echo "DATE=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+              ls
+              ls bin
+              ls bin/targets
+              ls bin/targets/rockchip
+              ls bin/targets/rockchip/armv8
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
