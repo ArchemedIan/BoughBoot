@@ -3,6 +3,11 @@ run-name: Build u-boot for BoughBoot-dev
 on:
   workflow_dispatch:
     inputs:
+      bb_ver:
+        description: version
+        required: true
+        default: 1.0-dev
+        type: string
       uboot_gh_repo:
         description: u-boot github repo
         required: true
@@ -18,7 +23,16 @@ on:
         required: true
         default: master
         type: string
-
+      armbian_gh_repo:
+        description: armbian build github repo
+        required: true
+        default: ArchemedIan/build
+        type: string
+      armbian_ref:
+        description: armbian ref
+        required: true
+        default: BoughBoot
+        type: string
 jobs:
   build:
     name: ${{ matrix.boards.name }}
@@ -30,10 +44,23 @@ jobs:
             {
               "name": "rk3588-orangepi-5-plus",
               "config": "orangepi-5-plus-rk3588_defconfig",
+              "armbian_board": "orangepi5-plus",
             }
           ]
 
     steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 512
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+          overprovision-lvm: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          remove-codeql: 'true'
+          remove-docker-images: 'true'
+      
       - name: Toolchain
         run: |
           sudo apt-get update
@@ -70,21 +97,43 @@ jobs:
           repository: ${{ inputs.uboot_gh_repo }}
           ref: ${{ inputs.uboot_ref }}
           path: u-boot
-
+      
+      - name: Checkout Armbian
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.armbian_gh_repo }}
+          ref: ${{ inputs.armbian_ref }}
+          path: armbian
+              
       - name: Build u-boot - ${{ matrix.boards.config }}
         run: |
           export ROCKCHIP_TPL=../rkbin/$(confget -f rkbin/RKBOOT/RK3588MINIALL.ini -s LOADER_OPTION FlashData)
           export BL31=../rkbin/$(confget -f rkbin/RKTRUST/RK3588TRUST.ini -s BL31_OPTION PATH)
           cd u-boot
           make mrproper
-          make ${{ matrix.boards.config }}
+          make ${{ matrix.boards.u-boot-defconfig }}
           make KCFLAGS="-fno-peephole2" CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc)
-          ls -la
-
+          cd ..
+          mkdir bb
+          cp u-boot/uboot* bb/
+          cp u-boot/uboot* bb/
+          cp u-boot/idbloader.img bb/
+          cp u-boot/idbloader-spi.img bb/
+          rm -rf u-boot
+      
+      - name: Build Armbian - ${{ matrix.boards.armbian_board }}
+        run: |
+          version=${{ inputs.bb_ver }}
+          rootdir=$(pwd)
+          NewName=BoughBoot_$version
+          cd armbian
+          chmod a+x userpatches/customize-image.sh
+          ./compile.sh BOARD=${{ matrix.boards.armbian_board }} BRANCH=legacy RELEASE=bookworm KERNEL_CONFIGURE=no CLEAN_LEVEL=alldebs,images,debs
+          cd ..
+          cp armbian/output/images/*${{ matrix.boards.armbian_board }}*.img bb/
+  
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.boards.name }}
-          path: |
-            u-boot/u-boot-rockchip.bin
-            u-boot/u-boot-rockchip-spi.bin
+          path: bb/
