@@ -43,7 +43,7 @@ jobs:
           [
             {
               "name": "rk3588-orangepi-5-plus",
-              "config": "orangepi-5-plus-rk3588_defconfig",
+              "u-boot-defconfig": "orangepi-5-plus-rk3588_defconfig",
               "armbian_board": "orangepi5-plus",
             }
           ]
@@ -105,7 +105,7 @@ jobs:
           ref: ${{ inputs.armbian_ref }}
           path: armbian
               
-      - name: Build u-boot - ${{ matrix.boards.config }}
+      - name: Build u-boot - ${{ matrix.boards.u-boot-defconfig }}
         run: |
           export ROCKCHIP_TPL=../rkbin/$(confget -f rkbin/RKBOOT/RK3588MINIALL.ini -s LOADER_OPTION FlashData)
           export BL31=../rkbin/$(confget -f rkbin/RKTRUST/RK3588TRUST.ini -s BL31_OPTION PATH)
