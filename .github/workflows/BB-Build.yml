@@ -1,4 +1,4 @@
-name: Build u-boot for BoughBoot-dev
+name: Build BoughBoot-dev
 run-name: Build u-boot for BoughBoot-dev
 on:
   workflow_dispatch:
