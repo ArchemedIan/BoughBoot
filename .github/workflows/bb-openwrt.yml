@@ -83,7 +83,7 @@ jobs:
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
-              name: ${{ inputs.openwrt_ref }_buildinfo
+              name: ${{ inputs.openwrt_ref }}_buildinfo
               path: |
                 bin/targets/rockchip/armv8/config.buildinfo
                 bin/targets/rockchip/armv8/feeds.buildinfo
@@ -95,131 +95,131 @@ jobs:
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyarm_nanopi-r2s-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyarm_nanopi-r2s-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyarm_nanopi-r2s-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r5c-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r5c-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r5c-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r5s-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r5s-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r5s-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-plus-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-plus-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-plus-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r6s-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r6s-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r6s-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-pine64_quartz64-a-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-pine64_quartz64-a-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-pine64_quartz64-a-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-radxa_rock-3a-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-radxa_rock-3a-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-radxa_rock-3a-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-radxa_rock-pi-4-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-radxa_rock-pi-4-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-radxa_rock-pi-4-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: warn
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-xunlong_orangepi-5-plus-squashfs
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-xunlong_orangepi-5-plus-squashfs
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-xunlong_orangepi-5-plus-squashfs-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyarm_nanopi-r2s-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyarm_nanopi-r2s-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyarm_nanopi-r2s-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r5c-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r5c-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r5c-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r5s-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r5s-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r5s-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-plus-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-plus-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-plus-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r6c-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-friendlyelec_nanopi-r6s-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-friendlyelec_nanopi-r6s-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyelec_nanopi-r6s-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-pine64_quartz64-a-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-pine64_quartz64-a-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-pine64_quartz64-a-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-radxa_rock-3a-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-radxa_rock-3a-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-radxa_rock-3a-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: ignore
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-radxa_rock-pi-4-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-radxa_rock-pi-4-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-radxa_rock-pi-4-ext4-sysupgrade.img.gz
           - name: Upload artifacts
             uses: actions/upload-artifact@v3
             with:
               if-no-files-found: warn
-              name: ${{ inputs.openwrt_ref }_openwrt-rockchip-armv8-xunlong_orangepi-5-plus-ext4
+              name: ${{ inputs.openwrt_ref }}_openwrt-rockchip-armv8-xunlong_orangepi-5-plus-ext4
               path: bin/targets/rockchip/armv8/openwrt-rockchip-armv8-xunlong_orangepi-5-plus-ext4-sysupgrade.img.gz
