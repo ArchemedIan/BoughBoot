@@ -115,8 +115,7 @@ jobs:
           make KCFLAGS="-fno-peephole2" CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc)
           cd ..
           mkdir bb
-          cp u-boot/uboot* bb/
-          cp u-boot/uboot* bb/
+          cp u-boot/u-boot* bb/
           cp u-boot/idbloader.img bb/
           cp u-boot/idbloader-spi.img bb/
           rm -rf u-boot
