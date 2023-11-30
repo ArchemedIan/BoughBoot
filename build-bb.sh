@@ -50,9 +50,9 @@ mkdir $rootdir/out/u-boot-Boughboot/
 cp $rootdir/bb/u-boot* $NewImgDir/boot/u-boot-Boughboot/
 cp $rootdir/bb/idbloader.img $NewImgDir/boot/u-boot-Boughboot/
 cp $rootdir/bb/idbloader-spi.img $NewImgDir/boot/u-boot-Boughboot/
-cp $rootdir/bb/u-boot* $rootdir/out/u-boot-Boughboot/
-cp $rootdir/bb/idbloader.img $rootdir/out/u-boot-Boughboot/
-cp $rootdir/bb/idbloader-spi.img $rootdir/out/u-boot-Boughboot/
+#cp $rootdir/bb/u-boot* $rootdir/out/u-boot-Boughboot/
+#cp $rootdir/bb/idbloader.img $rootdir/out/u-boot-Boughboot/
+#cp $rootdir/bb/idbloader-spi.img $rootdir/out/u-boot-Boughboot/
 bakdir=$(pwd)
 cd $NewImgDir
 rootuuid=`blkid -s UUID -o value ${NewImgloopdev}p1`
