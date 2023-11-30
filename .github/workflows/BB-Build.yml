@@ -65,7 +65,7 @@ jobs:
       - name: Toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install gcc-12 gcc-12-aarch64-linux-gnu python3-pyelftools confget
+          sudo apt-get install gcc-12 gcc-12-aarch64-linux-gnu python3-pyelftools confget parted
 
           sudo ln -sf cpp-12 /usr/bin/cpp
           sudo ln -sf gcc-12 /usr/bin/gcc
@@ -132,7 +132,7 @@ jobs:
         run: |
           cp build-bb/build-bb.sh .
           chmod a+x ./build-bb.sh
-          ./build-bb.sh "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}"
+          sudo ./build-bb.sh "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
