@@ -18,7 +18,7 @@ echo bbimg is $bbimg
 NewImg=$rootdir/out/${NewName}.img
 NewTar=$rootdir/out/${NewName}.tar.xz
 losetup -f $bbimg
-bbimgloopdev=`losetup |grep BoughBoot| grep minimal | awk '{print $1}'`
+bbimgloopdev=`losetup |grep $armbian_imgname | awk '{print $1}'`
 echo $bbimgloopdev
 partx -a "$bbimgloopdev" ||true
 [ -d 1 ] || mkdir 1
