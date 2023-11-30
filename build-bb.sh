@@ -92,6 +92,6 @@ sync
 sleep 2
 cd $rootdir/out
 ls
-xz -zkT0 -6 ${NewTar}
+xz -zkT0 -6 ${NewImg}
 ls
 sync
