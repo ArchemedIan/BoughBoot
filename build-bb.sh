@@ -28,9 +28,11 @@ mount ${bbimgloopdev}p2 2
 mount ${bbimgloopdev}p1 2/boot
 
 newimgsize=$((`sudo du -d0 2|awk '{print $1}'`+1536000))
+echo newimgsize is $newimgsize
 fallocate -l ${newimgsize}K $NewImg
 losetup -f $NewImg
-NewImgloopdev=`losetup |grep BoughBoot_${version}.img | awk '{print $1}'`
+NewImgloopdev=`losetup |grep BoughBoot-$version-$boards_name | awk '{print $1}'`
+echo NewImgloopdev is $NewImgloopdev
 dd if=/dev/zero of=${NewImgloopdev} count=4096 bs=512
 parted --script ${NewImgloopdev} -- \
 mklabel gpt \
