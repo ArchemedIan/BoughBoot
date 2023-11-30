@@ -146,7 +146,6 @@ jobs:
 	[ -d $rootdir/out ] || mkdir $rootdir/out
 	mount ${bbimgloopdev}p2 2
 	mount ${bbimgloopdev}p1 2/boot
-	#newimgsize=$((`du -d0 2|awk '{print $1}'`+102400))
 	newimgsize=$((`sudo du -d0 2|awk '{print $1}'`+1536000))
 	[ -e $NewImg ] && rm $NewImg
 	sync
