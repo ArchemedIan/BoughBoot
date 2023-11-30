@@ -101,6 +101,7 @@ echo NBOSType=unset >> NextBootEnv.txt
 echo NBnow=0 >> NextBootEnv.txt
 cd $bakdir
 umount $tmpdir
+tune2fs -O ^metadata_csum ${NewImgloopdev}p1
 partx -d ${NewImgloopdev}p1
 losetup -d ${NewImgloopdev}
 umount 2/boot 2
