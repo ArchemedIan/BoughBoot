@@ -1,5 +1,5 @@
 name: Build BoughBoot-dev
-run-name: Build u-boot for BoughBoot-dev
+run-name: Build BoughBoot-${{ inputs.bb_ver }}
 on:
   workflow_dispatch:
     inputs:
