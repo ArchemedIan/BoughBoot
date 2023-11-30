@@ -137,20 +137,8 @@ jobs:
           chmod a+x ./build-bb.sh
           sudo ./build-bb.sh "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}" "${{ matrix.boards.name }}"
 
-      - name: Upload BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}.img.xz
+      - name: Upload BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
         uses: actions/upload-artifact@v3
         with:
-          name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}.img.xz
-          path: out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}.img.xz
-
-      - name: Upload BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-rootfs.tar.xz
-        uses: actions/upload-artifact@v3
-        with:
-          name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-rootfs.tar.xz
-          path: out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-rootfs.tar.xz
-
-      - name: Upload BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
-        uses: actions/upload-artifact@v3
-        with:
-          name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
-          path: out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
+          name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
+          path: out/*.xz
