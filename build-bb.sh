@@ -9,7 +9,7 @@ rootdir=$(pwd)
 NewName=BoughBoot-$version-$boards_name
 cd armbian
 chmod a+x userpatches/customize-image.sh
-sudo --user $SUDO_USER ./compile.sh BOARD=$armbian_board BRANCH=legacy RELEASE=bookworm KERNEL_CONFIGURE=no CLEAN_LEVEL=alldebs,images,debs
+sudo --user $SUDO_USER ./compile.sh BOARD=$armbian_board BRANCH=legacy RELEASE=bookworm KERNEL_CONFIGURE=no CLEAN_LEVEL=alldebs,images,debs >/dev/null
 cd ..
 cp armbian/output/images/$armbian_imgname bb/
 cd bb 
@@ -19,13 +19,14 @@ NewImg=$rootdir/out/${NewName}.img
 NewTar=$rootdir/out/${NewName}-rootfs.tar.xz
 losetup -f $bbimg
 bbimgloopdev=`losetup |grep $armbian_imgname | awk '{print $1}'`
-echo $bbimgloopdev
-partx -a "$bbimgloopdev" ||true
+echo bbimgloopdev is $bbimgloopdev
+partprobe $bbimgloopdev
 [ -d 2 ] || mkdir 2
 [ -d $NewName ] || mkdir $NewName
 [ -d $rootdir/out ] || mkdir $rootdir/out
 mount ${bbimgloopdev}p2 2
 mount ${bbimgloopdev}p1 2/boot
+
 newimgsize=$((`sudo du -d0 2|awk '{print $1}'`+1536000))
 fallocate -l ${newimgsize}K $NewImg
 losetup -f $NewImg
