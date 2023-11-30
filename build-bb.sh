@@ -91,5 +91,7 @@ losetup -d "$bbimgloopdev"
 sync
 sleep 2
 cd $rootdir/out
+ls
 xz -zkT0 -6 ${NewTar}
+ls
 sync
