@@ -90,3 +90,6 @@ partx -d "$bbimgloopdev"
 losetup -d "$bbimgloopdev"
 sync
 sleep 2
+
+xz -zkT0 -6 ${NewTar}
+sync
