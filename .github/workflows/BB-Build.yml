@@ -122,20 +122,35 @@ jobs:
           make ${{ matrix.boards.u-boot-defconfig }}
           make KCFLAGS="-fno-peephole2" CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc)
           cd ..
-          mkdir bb
+          mkdir bb out
           cp u-boot/u-boot* bb/
           cp u-boot/idbloader.img bb/
           cp u-boot/idbloader-spi.img bb/
+          cd bb
+          tar caf - . | xz -czT0 -0 > ../out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
+          cd ..
           rm -rf u-boot
       
       - name: Build Armbian - ${{ matrix.boards.armbian_board }}
         run: |
           cp build-bb/build-bb.sh .
           chmod a+x ./build-bb.sh
-          sudo ./build-bb.sh "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}"
+          sudo ./build-bb.sh "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}" "${{ matrix.boards.name }}"
 
-      - name: Upload artifacts
+      - name: Upload BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}.img
         uses: actions/upload-artifact@v3
         with:
-          name: BoughBoot-${{ matrix.boards.name }}
-          path: out/
+          name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}.img
+          path: out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}.img
+
+      - name: Upload BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-rootfs.tar.xz
+        uses: actions/upload-artifact@v3
+        with:
+          name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-rootfs.tar.xz
+          path: out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-rootfs.tar.xz
+
+      - name: Upload BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
+        uses: actions/upload-artifact@v3
+        with:
+          name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
+          path: out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
