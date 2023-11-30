@@ -44,7 +44,7 @@ tune2fs -O ^metadata_csum ${NewImgloopdev}p1
 NewImgDir=$rootdir/$NewName
 [ -d $NewImgDir ] || mkdir $NewImgDir
 mount ${NewImgloopdev}p1 $NewImgDir
-rsync -aHSAX -ih --progress 2/ $NewImgDir
+rsync -aHSAX -ih --progress 2/ $NewImgDir >/dev/null
 sync
 mkdir $NewImgDir/boot/u-boot-Boughboot
 mkdir $rootdir/out/u-boot-Boughboot/
