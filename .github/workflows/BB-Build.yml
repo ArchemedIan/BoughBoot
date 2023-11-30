@@ -45,6 +45,7 @@ jobs:
               "name": "rk3588-orangepi-5-plus",
               "u-boot-defconfig": "orangepi-5-plus-rk3588_defconfig",
               "armbian_board": "orangepi5-plus",
+              "armbian_imgname": "BoughBoot_*_Orangepi5-plus*.img",
             }
           ]
 
@@ -129,7 +130,7 @@ jobs:
           chmod a+x userpatches/customize-image.sh
           ./compile.sh BOARD=${{ matrix.boards.armbian_board }} BRANCH=legacy RELEASE=bookworm KERNEL_CONFIGURE=no CLEAN_LEVEL=alldebs,images,debs
           cd ..
-          cp armbian/output/images/*${{ matrix.boards.armbian_board }}*.img bb/
+          cp armbian/output/images/${{ matrix.boards.armbian_imgname }} bb/
   
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
