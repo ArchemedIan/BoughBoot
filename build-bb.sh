@@ -79,7 +79,7 @@ echo NBRootNum=unset >> NextBootEnv.txt
 echo NBPrefix=unset >> NextBootEnv.txt
 echo NBOSType=unset >> NextBootEnv.txt
 echo NBnow=0 >> NextBootEnv.txt
-mkdir /opt/BB
+mkdir opt/BB
 cp -r $rootdir/build-bb/dev/* opt/BB
 tar caf - . | xz -czT0 -6 > $NewTar
 sync
