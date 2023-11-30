@@ -127,7 +127,7 @@ jobs:
           cp u-boot/idbloader.img bb/
           cp u-boot/idbloader-spi.img bb/
           cd bb
-          tar caf - . | xz -czT0 -0 > ../out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
+          tar caf - . | xz -czT0 -6 > ../out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
           cd ..
           rm -rf u-boot
       
