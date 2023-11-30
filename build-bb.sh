@@ -55,9 +55,6 @@ cp $rootdir/bb/idbloader.img $rootdir/out/u-boot-Boughboot/
 cp $rootdir/bb/idbloader-spi.img $rootdir/out/u-boot-Boughboot/
 bakdir=$(pwd)
 cd $NewImgDir
-[ -e $NewTar ] && rm $NewTar
-tar caf - . | xz -czT0 -0 > $NewTar
-sync
 rootuuid=`blkid -s UUID -o value ${NewImgloopdev}p1`
 sed "s|UUID=.* / |UUID=$rootuuid / |g" -i etc/fstab
 sync
@@ -81,7 +78,8 @@ echo NBOSType=unset >> NextBootEnv.txt
 echo NBnow=0 >> NextBootEnv.txt
 mkdir /opt/BB
 cp -r $rootdir/build-bb/dev/* opt/BB
-
+tar caf - . | xz -czT0 -6 > $NewTar
+sync
 cd $bakdir
 umount $NewImgDir
 
