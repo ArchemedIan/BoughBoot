@@ -130,11 +130,9 @@ jobs:
       
       - name: Build Armbian - ${{ matrix.boards.armbian_board }}
         run: |
-          ls
-          ls */
-          cp build-bb/bb-build.sh .
-          chmod a+x ./bb-build.sh
-          ./bb-build.sh "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}"
+          cp build-bb/build-bb.sh .
+          chmod a+x ./build-bb.sh
+          ./build-bb "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
