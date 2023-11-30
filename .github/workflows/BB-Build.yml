@@ -123,9 +123,8 @@ jobs:
           make KCFLAGS="-fno-peephole2" CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc)
           cd ..
           mkdir bb out
-          cp u-boot/u-boot* bb/
-          cp u-boot/idbloader.img bb/
-          cp u-boot/idbloader-spi.img bb/
+          cp u-boot/u-boot-rockchip-spi.bin bb/
+          cp u-boot/u-boot-rockchip.bin bb/
           cd bb
           tar caf - . | xz -czT0 -6 > ../out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
           cd ..
