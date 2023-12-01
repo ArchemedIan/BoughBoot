@@ -7,8 +7,9 @@ boards_name=$4
 version=$bb_ver
 rootdir=$(pwd)
 NewName=BoughBoot-$version-$boards_name
+userpatches=$(pwd)/build-bb/userpatches
 cd armbian
-sudo --user $SUDO_USER ./compile.sh BOARD="orangepi5-plus" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="no" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no" USERPATCHES_PATH="$(pwd)/build-bb/userpatches"
+sudo --user $SUDO_USER ./compile.sh BOARD="orangepi5-plus" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="no" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no" USERPATCHES_PATH="$userpatches"
 cd ..
 cp armbian/output/images/$armbian_imgname bb/
 cd bb 
