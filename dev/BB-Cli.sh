@@ -1,11 +1,13 @@
 #!/usr/bin/bash 
 BBVer=alpha1
-nextbootEnv=/boot/BBEnv/NextBootEnv.txt
+bbenv=/boot/BB/BoughBootEnv.txt
+nextbootEnv=/boot/BB/NextBootEnv.txt
+NBEnvs=/boot/BB/NBEnvs/
 cd $(dirname "$0")
 
 
 
-systemctl start vncserver.service vsftpd.service avahi-daemon.socket networking.service nginx.service mariadb.service dropbear.service udisks2.service smbd.service php8.2-fpm.service nmbd.service >/dev/null 2>&1 &
+systemctl start systemctl disable openvpn.service wpa_supplicant.service unattended-upgrades.service NetworkManager.service NetworkManager-dispatcher.service networking.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
 export NEWT_COLORS='
 root=brown,black
 border=brown,black
@@ -52,7 +54,7 @@ Bootmenu () {
     if [[ $? -gt 0 ]]; then
 	exit 0
     fi
-    for bootEnv in $(ls /boot/Env/bootEnvs/*.txt)
+    for bootEnv in $(ls ${NBEnvs}/*.txt)
     do
         if cat "$bootEnv"| grep -e "BBMenuName=$bootselection"
         then
