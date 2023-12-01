@@ -130,4 +130,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
-          path: out/*.xz
+          path: |
+          out/*.img
+          out/*.xz
