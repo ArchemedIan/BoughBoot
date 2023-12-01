@@ -9,7 +9,7 @@ rootdir=$(pwd)
 NewName=BoughBoot-$version-$boards_name
 cd armbian
 chmod a+x userpatches/customize-image.sh
-sudo --user $SUDO_USER ./compile.sh BOARD=$armbian_board BRANCH=legacy BUILD_MINIMAL=no KERNEL_CONFIGURE=no RELEASE=bookworm CLEAN_LEVEL=alldebs,images,debs
+sudo --user $SUDO_USER ./compile.sh BOARD=orangepi5-plus BRANCH=legacy BUILD_MINIMAL=no KERNEL_CONFIGURE=no RELEASE=bookworm
 cd ..
 cp armbian/output/images/$armbian_imgname bb/
 cd bb 
