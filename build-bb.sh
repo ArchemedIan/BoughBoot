@@ -38,11 +38,13 @@ parted --script ${NewImgloopdev} -- \
 mklabel gpt \
 mkpart primary ext4 16MiB -32768s \
 name 1 BoughBoot
-partx -a ${NewImgloopdev}||true
+partprobe $NewImgloopdev
 mkfs.ext4 -L Boughboot ${NewImgloopdev}p1
+partprobe $NewImgloopdev
 dd if=$rootdir/bb/idbloader.img of=${NewImgloopdev} seek=64 conv=notrunc status=none
 dd if=$rootdir/bb/u-boot.itb of=${NewImgloopdev} seek=16384 conv=notrunc status=none
 tune2fs -O ^metadata_csum ${NewImgloopdev}p1
+partprobe $NewImgloopdev
 NewImgDir=$rootdir/$NewName
 [ -d $NewImgDir ] || mkdir $NewImgDir
 mount ${NewImgloopdev}p1 $NewImgDir
@@ -59,6 +61,7 @@ cp $rootdir/bb/idbloader-spi.img $NewImgDir/boot/u-boot-Boughboot/
 bakdir=$(pwd)
 cd $NewImgDir
 rootuuid=`blkid -s UUID -o value ${NewImgloopdev}p1`
+echo rootuuid is $rootuuid
 sed "s|UUID=.* / |PARTLABEL="BoughBoot" / |g" -i etc/fstab
 sync
 sed  "s|UUID=.* /boot|#UUID= /boot|g" -i etc/fstab
@@ -88,7 +91,7 @@ sync
 cd $bakdir
 umount $NewImgDir
 
-partx -d ${NewImgloopdev}p1
+partprobe $bbimgloopdev
 losetup -d ${NewImgloopdev}
 umount 2/boot 2
 partx -d "$bbimgloopdev"
