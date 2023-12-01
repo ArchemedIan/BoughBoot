@@ -43,7 +43,7 @@ mkfs.ext4 -L Boughboot ${NewImgloopdev}p1
 partprobe $NewImgloopdev
 dd if=$rootdir/bb/idbloader.img of=${NewImgloopdev} seek=64 conv=notrunc status=none
 dd if=$rootdir/bb/u-boot.itb of=${NewImgloopdev} seek=16384 conv=notrunc status=none
-tune2fs -O ^metadata_csum ${NewImgloopdev}p1
+#tune2fs -O ^metadata_csum ${NewImgloopdev}p1
 partprobe $NewImgloopdev
 partprobe
 NewImgDir=$rootdir/$NewName
