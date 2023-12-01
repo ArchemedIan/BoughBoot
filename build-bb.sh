@@ -45,6 +45,7 @@ dd if=$rootdir/bb/idbloader.img of=${NewImgloopdev} seek=64 conv=notrunc status=
 dd if=$rootdir/bb/u-boot.itb of=${NewImgloopdev} seek=16384 conv=notrunc status=none
 tune2fs -O ^metadata_csum ${NewImgloopdev}p1
 partprobe $NewImgloopdev
+partprobe
 NewImgDir=$rootdir/$NewName
 [ -d $NewImgDir ] || mkdir $NewImgDir
 mount ${NewImgloopdev}p1 $NewImgDir
@@ -92,6 +93,8 @@ cd $bakdir
 umount $NewImgDir
 
 partprobe $bbimgloopdev
+partprobe ${NewImgloopdev}
+partprobe
 losetup -d ${NewImgloopdev}
 umount 2/boot 2
 partx -d "$bbimgloopdev"
