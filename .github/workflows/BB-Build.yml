@@ -123,10 +123,7 @@ jobs:
       - name: Build Armbian - ${{ matrix.boards.armbian_board }}
         run: |
           cp build-bb/build-bb.sh .
-          cp -r build-bb/userpatches armbian/
-          ls armbian
           chmod a+x ./build-bb.sh
-          chmod a+x ./armbian/userpatches/customize-image.sh
           sudo ./build-bb.sh "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}" "${{ matrix.boards.name }}"
 
       - name: Upload BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
