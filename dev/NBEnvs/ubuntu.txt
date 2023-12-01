@@ -1,7 +1,7 @@
 BBMenuName=Ubuntu 22.04 (spooky)
 BBMenuDescription=Spooky's Ubuntu (rockchip kernel)
 NBDevType=mmc
-NBDevNum=1
+NBDevNum=0
 NBBootNum=1
 NBRootNum=2
 NBOSType=ubuntu
