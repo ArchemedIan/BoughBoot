@@ -61,9 +61,9 @@ cp $rootdir/bb/idbloader-spi.img $NewImgDir/boot/u-boot-Boughboot/
 #cp $rootdir/bb/idbloader-spi.img $rootdir/out/u-boot-Boughboot/
 bakdir=$(pwd)
 cd $NewImgDir
-rootuuid=`blkid -s UUID -o value ${NewImgloopdev}p1`
+rootuuid=`blkid -s PARTUUID -o value ${NewImgloopdev}p1`
 echo rootuuid is $rootuuid
-sed "s|UUID=.* / |PARTLABEL="BoughBoot" / |g" -i etc/fstab
+sed "s|UUID=.* / |PARTUUID=$rootuuid / |g" -i etc/fstab
 sync
 sed  "s|UUID=.* /boot|#UUID= /boot|g" -i etc/fstab
 touch BoughBootEnv.txt
