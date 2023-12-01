@@ -9,7 +9,7 @@ rootdir=$(pwd)
 NewName=BoughBoot-$version-$boards_name
 cd armbian
 chmod a+x userpatches/customize-image.sh
-sudo --user $SUDO_USER ./compile.sh BOARD=$armbian_board BRANCH=legacy RELEASE=bookworm KERNEL_CONFIGURE=no CLEAN_LEVEL=alldebs,images,debs >/dev/null
+sudo --user $SUDO_USER ./compile.sh BOARD=$armbian_board BRANCH=legacy BUILD_MINIMAL=no KERNEL_CONFIGURE=no RELEASE=bookworm CLEAN_LEVEL=alldebs,images,debs
 cd ..
 cp armbian/output/images/$armbian_imgname bb/
 cd bb 
@@ -44,7 +44,7 @@ mkfs.ext4 -L Boughboot ${NewImgloopdev}p1
 partprobe $NewImgloopdev
 dd if=$rootdir/bb/idbloader.img of=${NewImgloopdev} seek=64 conv=notrunc status=none
 dd if=$rootdir/bb/u-boot.itb of=${NewImgloopdev} seek=16384 conv=notrunc status=none
-#tune2fs -O ^metadata_csum ${NewImgloopdev}p1
+tune2fs -O ^metadata_csum ${NewImgloopdev}p1
 partprobe $NewImgloopdev
 partprobe
 NewImgDir=$rootdir/$NewName
