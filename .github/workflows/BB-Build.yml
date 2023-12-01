@@ -26,12 +26,12 @@ on:
       armbian_gh_repo:
         description: armbian build github repo
         required: true
-        default: ArchemedIan/build
+        default: armbian/build
         type: string
       armbian_ref:
         description: armbian ref
         required: true
-        default: bb
+        default: v23.11
         type: string
 jobs:
   build:
