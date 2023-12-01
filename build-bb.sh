@@ -15,6 +15,7 @@ cp armbian/output/images/$armbian_imgname bb/
 cd bb 
 bbimg=`pwd`/`ls $armbian_imgname|cut -d' ' -f1`
 echo bbimg is $bbimg
+cp $bbimg $rootdir/out
 NewImg=$rootdir/out/${NewName}.img
 NewTar=$rootdir/out/${NewName}-rootfs.tar.xz
 losetup -f $bbimg
