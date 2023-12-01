@@ -86,8 +86,8 @@ echo NBOSType=unset >> NextBootEnv.txt
 echo NBnow=0 >> NextBootEnv.txt
 mkdir boot/BB
 cp -r $rootdir/build-bb/dev/* boot/BB
-ln -s NextBootEnv.txt boot/BB/NextBootEnv.txt
-ln -s BoughBootEnv.txt boot/BB/BoughBootEnv.txt
+ln -sr boot/BB/* .
+sync
 tar caf - . | xz -czT0 -6 > $NewTar
 sync
 cd $bakdir
