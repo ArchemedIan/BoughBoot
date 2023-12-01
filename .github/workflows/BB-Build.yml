@@ -131,5 +131,5 @@ jobs:
         with:
           name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
           path: |
-          out/*.img
-          out/*.xz
+           out/*.img
+           out/*.xz
