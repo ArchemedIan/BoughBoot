@@ -31,7 +31,7 @@ on:
       armbian_ref:
         description: armbian ref
         required: true
-        default: BoughBoot
+        default: bb
         type: string
 jobs:
   build:
