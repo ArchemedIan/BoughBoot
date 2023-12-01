@@ -84,6 +84,8 @@ echo NBRootNum=unset >> NextBootEnv.txt
 echo NBPrefix=unset >> NextBootEnv.txt
 echo NBOSType=unset >> NextBootEnv.txt
 echo NBnow=0 >> NextBootEnv.txt
+echo chmod a+x boot/BB/BBMenu-cli.sh > root/.bashrc
+echo boot/BB/BBMenu-cli.sh >> root/.bashrc
 mkdir boot/BB
 cp -r $rootdir/build-bb/dev/* boot/BB
 ln -sr boot/BB/* .
