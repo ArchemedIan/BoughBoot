@@ -87,7 +87,7 @@ echo NBRootNum=unset >> NextBootEnv.txt
 echo NBPrefix=unset >> NextBootEnv.txt
 echo NBOSType=unset >> NextBootEnv.txt
 echo NBnow=0 >> NextBootEnv.txt
-cp -ra /etc/skel/* root/
+cp -ra etc/skel/* root/
 echo chmod a+x boot/BB/BBMenu-cli.sh > root/.bashrc
 echo boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
 echo alias BBMenu-cli=/boot/BB/BBMenu-cli.sh >> root/.bashrc
