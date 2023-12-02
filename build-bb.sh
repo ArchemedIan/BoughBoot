@@ -9,7 +9,7 @@ rootdir=$(pwd)
 NewName=BoughBoot-$version-$boards_name
 cp -r ./build-bb/userpatches ./armbian/
 cd armbian
-sudo --user $SUDO_USER ./compile.sh BOARD="orangepi5-plus" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="no" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
+sudo --user $SUDO_USER ./compile.sh BOARD="${armbian_board}" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="no" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
 cd ..
 cp armbian/output/images/$armbian_imgname bb/
 cd bb 
@@ -72,7 +72,7 @@ echo BBDevType=unset > BoughBootEnv.txt
 echo BBDevNum=unset >> BoughBootEnv.txt
 echo BBRootNum=unset >> BoughBootEnv.txt
 echo BBEnvNum=unset >> BoughBootEnv.txt
-echo BBfdtfile=rockchip/rk3588-orangepi-5-plus.dtb >> BoughBootEnv.txt
+echo BBfdtfile=unset >> BoughBootEnv.txt
 echo BBEnvFileSize=unset >> BoughBootEnv.txt
 touch NextBootEnv.txt
 echo BBMenuName=unset > NextBootEnv.txt
@@ -84,8 +84,14 @@ echo NBRootNum=unset >> NextBootEnv.txt
 echo NBPrefix=unset >> NextBootEnv.txt
 echo NBOSType=unset >> NextBootEnv.txt
 echo NBnow=0 >> NextBootEnv.txt
+touch root/.bashrc
 echo chmod a+x boot/BB/BBMenu-cli.sh > root/.bashrc
-echo boot/BB/BBMenu-cli.sh >> root/.bashrc
+echo boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
+echo alias BBMenu-cli=/boot/BB/BBMenu-cli.sh >> root/.bashrc
+echo alias BBMenu-cli.sh=/boot/BB/BBMenu-cli.sh >> root/.bashrc
+echo alias BBMenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
+echo alias bbmenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
+echo alias bb=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 mkdir boot/BB
 cp -r $rootdir/build-bb/dev/* boot/BB
 ln -sr boot/BB/* .
