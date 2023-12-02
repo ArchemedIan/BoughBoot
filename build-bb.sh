@@ -8,8 +8,10 @@ version=$bb_ver
 rootdir=$(pwd)
 NewName=BoughBoot-$version-$boards_name
 cp -r ./build-bb/userpatches ./armbian/
-ls
+chmod a+x ./armbian/userpatches/customize-image.sh
+ls -l
 cd armbian
+ls -l
 sudo --user $SUDO_USER ./compile.sh BOARD="${armbian_board}" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="no" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
 cd ..
 cp armbian/output/images/$armbian_imgname bb/
