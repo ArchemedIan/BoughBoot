@@ -70,36 +70,19 @@ echo rootuuid is $rootuuid
 sed "s|UUID=.* / |UUID=$rootuuid / |g" -i etc/fstab
 sync
 sed  "s|UUID=.* /boot|#UUID= /boot|g" -i etc/fstab
-touch BoughBootEnv.txt
-echo BBDevType=unset > BoughBootEnv.txt
-echo BBDevNum=unset >> BoughBootEnv.txt
-echo BBRootNum=unset >> BoughBootEnv.txt
-echo BBEnvNum=unset >> BoughBootEnv.txt
-echo BBfdtfile=unset >> BoughBootEnv.txt
-echo BBEnvFileSize=unset >> BoughBootEnv.txt
-touch NextBootEnv.txt
-echo BBMenuName=unset > NextBootEnv.txt
-echo BBMenuDescription=unset >> NextBootEnv.txt
-echo NBDevType=unset >> NextBootEnv.txt
-echo NBDevNum=unset >> NextBootEnv.txt
-echo NBBootNum=unset >> NextBootEnv.txt
-echo NBRootNum=unset >> NextBootEnv.txt
-echo NBPrefix=unset >> NextBootEnv.txt
-echo NBOSType=unset >> NextBootEnv.txt
-echo NBnow=0 >> NextBootEnv.txt
 rsync -aHSAX -ih etc/skel/ root
-echo chmod a+x boot/BB/BBMenu-cli.sh > root/.bashrc
-echo boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
+echo chmod a+x /boot/BB/BBMenu-cli.sh > root/.bashrc
 echo alias BBMenu-cli=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias BBMenu-cli.sh=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias BBMenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias bbmenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias bb=/boot/BB/BBMenu-cli.sh >> root/.bashrc
+echo /boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
 sed "s|orangepi5-plus|BoughBoot|g" -i etc/hostname
 sed "s|orangepi5-plus|BoughBoot|g" -i etc/hosts
 mkdir boot/BB
-cp -r $rootdir/build-bb/dev/* boot/BB
-ln -sr boot/BB/* .
+rsync -aHSAX -ih $rootdir/build-bb/dev/ boot/BB
+ln -sr boot/BB/*.txt . 
 sync
 tar caf - . | xz -czT0 -6 > $NewTar
 sync
