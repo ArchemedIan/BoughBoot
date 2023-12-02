@@ -53,7 +53,7 @@ partprobe
 NewImgDir=$rootdir/$NewName
 [ -d $NewImgDir ] || mkdir $NewImgDir
 mount ${NewImgloopdev}p1 $NewImgDir
-rsync -aHSAX -ih --progress 2/ $NewImgDir >/dev/null
+rsync -aHSAX -ih 2/ $NewImgDir
 sync
 mkdir $NewImgDir/boot/u-boot-Boughboot
 mkdir $rootdir/out/u-boot-Boughboot/
@@ -87,7 +87,7 @@ echo NBRootNum=unset >> NextBootEnv.txt
 echo NBPrefix=unset >> NextBootEnv.txt
 echo NBOSType=unset >> NextBootEnv.txt
 echo NBnow=0 >> NextBootEnv.txt
-cp -ra etc/skel/* root/
+rsync -aHSAX -ih etc/skel/ root
 echo chmod a+x boot/BB/BBMenu-cli.sh > root/.bashrc
 echo boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
 echo alias BBMenu-cli=/boot/BB/BBMenu-cli.sh >> root/.bashrc
