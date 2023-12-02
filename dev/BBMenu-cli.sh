@@ -2,7 +2,7 @@
 BBVer=alpha1
 bbenv=/boot/BB/BoughBootEnv.txt
 nextbootEnv=/boot/BB/NextBootEnv.txt
-NBEnvs=/boot/BB/NBEnvs/
+NBEnvs=/boot/BB/NBEnvs
 cd $(dirname "$0")
 
 
@@ -41,7 +41,7 @@ Bootmenu () {
     BBMenuList=()
     bootselection=
     #echo 
-    for bootEnv in $(ls /boot/Env/bootEnvs/*.txt)
+    for bootEnv in $(ls $NBEnvs/*.txt)
     do
         #echo inside for loop
         #echo getting bootname for $bootEnv
