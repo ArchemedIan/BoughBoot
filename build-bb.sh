@@ -8,6 +8,7 @@ version=$bb_ver
 rootdir=$(pwd)
 NewName=BoughBoot-$version-$boards_name
 cp -r ./build-bb/userpatches ./armbian/
+ls
 cd armbian
 sudo --user $SUDO_USER ./compile.sh BOARD="${armbian_board}" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="no" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
 cd ..
@@ -84,7 +85,7 @@ echo NBRootNum=unset >> NextBootEnv.txt
 echo NBPrefix=unset >> NextBootEnv.txt
 echo NBOSType=unset >> NextBootEnv.txt
 echo NBnow=0 >> NextBootEnv.txt
-touch root/.bashrc
+cp -ra /etc/skel/* root/
 echo chmod a+x boot/BB/BBMenu-cli.sh > root/.bashrc
 echo boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
 echo alias BBMenu-cli=/boot/BB/BBMenu-cli.sh >> root/.bashrc
