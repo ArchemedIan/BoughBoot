@@ -92,6 +92,8 @@ echo alias BBMenu-cli.sh=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias BBMenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias bbmenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias bb=/boot/BB/BBMenu-cli.sh >> root/.bashrc
+sed "s|orangepi5-plus|BoughBoot|g" -i etc/hostname
+sed "s|orangepi5-plus|BoughBoot|g" -i etc/hosts
 mkdir boot/BB
 cp -r $rootdir/build-bb/dev/* boot/BB
 ln -sr boot/BB/* .
