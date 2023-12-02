@@ -1,0 +1,6 @@
+BBDevType=unset
+BBDevNum=unset
+BBRootNum=unset
+BBEnvNum=unset
+BBfdtfile=unset
+BBEnvFileSize=unset
