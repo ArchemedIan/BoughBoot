@@ -1,4 +1,4 @@
-#!/bin/bash
+c#!/bin/bash
 bb_ver=$1
 armbian_board=$2
 armbian_imgname=$3
@@ -14,7 +14,8 @@ else
     version=$bb_ver
   fi
 fi
-
+echo version=$bb_ver
+sleep 60
 cp -r ./build-bb/userpatches ./armbian/
 chmod a+x ./armbian/userpatches/customize-image.sh
 ls -l
