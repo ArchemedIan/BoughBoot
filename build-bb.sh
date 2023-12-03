@@ -3,10 +3,18 @@ bb_ver=$1
 armbian_board=$2
 armbian_imgname=$3
 boards_name=$4
-
-version=$bb_ver
 rootdir=$(pwd)
 NewName=BoughBoot-$version-$boards_name
+
+if [[ "$bb_ver" == *"-dev"* ]]; then
+  version=$bb_ver
+else
+  if [ ! -d "$rootdir/build-bb/$bb_ver" ]; then
+    bb_ver=${bb_ver}-dev
+    version=$bb_ver
+  fi
+fi
+
 cp -r ./build-bb/userpatches ./armbian/
 chmod a+x ./armbian/userpatches/customize-image.sh
 ls -l
@@ -77,18 +85,25 @@ echo alias BBMenu-cli.sh=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias BBMenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias bbmenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias bb=/boot/BB/BBMenu-cli.sh >> root/.bashrc
+echo alias wifi=echo y\| armbian-config main=Network selection=WiFi>> root/.bashrc
+echo alias network=echo y\| armbian-config main=Network selection=WiFi>> root/.bashrc
 echo /boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
 sed "s|orangepi5-plus|BoughBoot|g" -i etc/hostname
 sed "s|orangepi5-plus|BoughBoot|g" -i etc/hosts
 mkdir boot/BB
-rsync -aHSAX -ih $rootdir/build-bb/dev/ boot/BB
+
+if [[ "$bb_ver" == *"-dev"* ]]; then
+  rsync -aHSAX -ih $rootdir/build-bb/dev/ boot/BB
+else
+  rsync -aHSAX -ih $rootdir/build-bb/$bb_ver/ boot/BB
+fi
+
 ln -sr boot/BB/*.txt . 
 sync
 tar caf - . | xz -czT0 -6 > $NewTar
 sync
 cd $bakdir
 umount $NewImgDir
-
 partprobe $bbimgloopdev
 partprobe ${NewImgloopdev}
 partprobe
