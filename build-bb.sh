@@ -4,8 +4,6 @@ bb_ver=$1
 armbian_board=$2
 armbian_imgname=$3
 boards_name=$4
-rootdir=$(pwd)
-NewName=BoughBoot-$version-$boards_name
 
 if [[ "$bb_ver" == *"-dev"* ]]; then
   version=$bb_ver
@@ -15,6 +13,9 @@ else
     version=$bb_ver
   fi
 fi
+
+rootdir=$(pwd)
+NewName=BoughBoot-$version-$boards_name
 echo bb_ver=$bb_ver
 echo version=$version
 echo armbian_board=$armbian_board
