@@ -1,4 +1,4 @@
-c#!/bin/bash
+#!/bin/bash
 bb_ver=$1
 armbian_board=$2
 armbian_imgname=$3
