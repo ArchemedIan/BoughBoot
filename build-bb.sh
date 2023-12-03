@@ -1,4 +1,5 @@
 #!/bin/bash
+set -xe
 bb_ver=$1
 armbian_board=$2
 armbian_imgname=$3
@@ -66,7 +67,7 @@ partprobe
 NewImgDir=$rootdir/$NewName
 [ -d $NewImgDir ] || mkdir $NewImgDir
 mount ${NewImgloopdev}p1 $NewImgDir
-rsync -aHSAX -ih 2/ $NewImgDir
+rsync -aHSAX -ih 2/ $NewImgDir >/dev/null
 sync
 mkdir $NewImgDir/boot/u-boot-Boughboot
 mkdir $rootdir/out/u-boot-Boughboot/
@@ -83,7 +84,7 @@ echo rootuuid is $rootuuid
 sed "s|UUID=.* / |UUID=$rootuuid / |g" -i etc/fstab
 sync
 sed  "s|UUID=.* /boot|#UUID= /boot|g" -i etc/fstab
-rsync -aHSAX -ih etc/skel/ root
+rsync -aHSAX -ih etc/skel/ root >/dev/null
 echo chmod a+x /boot/BB/BBMenu-cli.sh > root/.bashrc
 echo alias BBMenu-cli=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias BBMenu-cli.sh=/boot/BB/BBMenu-cli.sh >> root/.bashrc
