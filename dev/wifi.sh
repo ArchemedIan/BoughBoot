@@ -68,7 +68,7 @@ if [[ "$iface" -le $i ]]; then
         sec=$(awk -F: '{printf $3}' <<< $ssid| awk '{ print $NF }' )
         bars=$(awk -F: '{printf $4}' <<< $ssid)
         bcount=$(echo -n "$bars"| wc -c)
-        bcount=$((5-$bcount))
+        bcount=$((4-$bcount))
         x=$bcount 
         while [ $x -gt 0 ]; 
         do 
