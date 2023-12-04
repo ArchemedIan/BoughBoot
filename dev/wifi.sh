@@ -79,18 +79,19 @@ if [[ "$iface" -le $i ]]; then
         SSIDList+=("$name")
         SSIDList+=("| $rate | $sec | $bars")                                      
     done < <(nmcli --colors no --terse --fields SSID,RATE,SECURITY,BARS d wifi list)
-    ssidpick=$(whiptail --title "SSID | RATE | SECURITY | SIGNAL" --menu "Select an SSID" 24 112 16 "${SSIDList[@]}" 3>&1 1>&2 2>&3)
+    ssidpick=$(whiptail --backtitle "WiFi setup" --title "SSID | RATE | SECURITY | SIGNAL" --menu "Select an SSID" 24 112 16 "${SSIDList[@]}" 3>&1 1>&2 2>&3)
+    if [ -z "$ssidpick" ]; then whiptail --backtitle "WiFi setup" --title "Scanning..." --msgbox "No Wifi networks found (or none selected.)" 24 112 16; exit 0; fi
     password=$(whiptail --backtitle "WiFi setup" --title "WiFi Password Request" --passwordbox "Enter Password for $ssidpick:" 24 112 16>&1 1>&2 2>&3)
-    
-    #read -p "Enter the SSID or BSSID: " b_ssid # Prompts the user for the ESSID/BSSID
-    #read -p "Enter the password: " pass # Prompts the user for the password
+    if [ -z "$password" ]; then exit 0; fi
+  
     output=$(nmcli device wifi connect "$ssidpick" password "$password" ifname "$interface"  ) # Tries to connect
     wget -q --tries=5 --timeout=5 --spider http://google.com &> /dev/null # Is connected to Internet?
     if [[ $? -eq 0 ]]; then
-            echo "You're connected." # Is connected to Internet
+            #echo "You're connected." 
+            whiptail --backtitle "WiFi setup" --title "Scanning..." --msgbox "You're connected." 24 112 16
             exit 0
     else
-            echo "Error. $output" # Anything goes wrong
+            echo "Error. $output" 
             exit 1
     fi
 else
