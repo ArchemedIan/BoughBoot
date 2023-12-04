@@ -15,7 +15,7 @@ while read interface; do                    # While reads a line of the output
     type=$(cut -f2 -d ' ' <<< $interface)       # Saves the interface type to check if is wifi.
     status=$(cut -f3 -d ' ' <<< $interface)     # Saves the status of the current interface.
     interface=$(cut -f1 -d ' ' <<< $interface)  # Selects the INTEFACE field of the output.
-    if [[ "$type" == "802-11-wireless" ]]; then # If is a WiFi interface then:
+    if [[ "$type" == "wifi" ]]; then # If is a WiFi interface then:
       i=$((i+1)) 
       interfaces[$i]=$interface                     # Adds the current interface to an array.
       echo "$i: $interface ($status)"               # Prints the name of current interface.
@@ -35,7 +35,7 @@ fi
 if [[ "$iface" -le $i ]]; then
     read -p "Enter the SSID or BSSID: " b_ssid # Prompts the user for the ESSID/BSSID
     read -p "Enter the password: " pass # Prompts the user for the password
-    output=$(nmcli device wifi connect "$b_ssid" password "$pass" iface $interface --timeout 10) # Tries to connect
+    output=$(nmcli device wifi connect "$b_ssid" password "$pass" ifname $interface ) # Tries to connect
     wget -q --tries=5 --timeout=5 --spider http://google.com &> /dev/null # Is connected to Internet?
     if [[ $? -eq 0 ]]; then
             echo "You're connected." # Is connected to Internet
