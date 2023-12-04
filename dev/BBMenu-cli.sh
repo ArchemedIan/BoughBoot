@@ -7,7 +7,7 @@ cd $(dirname "$0")
 
 
 
-systemctl start systemctl disable openvpn.service wpa_supplicant.service unattended-upgrades.service NetworkManager.service NetworkManager-dispatcher.service networking.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
+#systemctl start systemctl disable openvpn.service unattended-upgrades.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
 export NEWT_COLORS='
 root=brown,black
 border=brown,black
