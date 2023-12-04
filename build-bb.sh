@@ -92,7 +92,7 @@ echo alias BBMenu-cli.sh=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias BBMenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias bbmenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias bb=/boot/BB/BBMenu-cli.sh >> root/.bashrc
-echo alias bb=/boot/BB/wifi.sh>> root/.bashrc
+echo alias wifi=/boot/BB/wifi.sh>> root/.bashrc
 echo "alias network=\"echo y| armbian-config main=Network\"">> root/.bashrc
 echo /boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
 sed "s|orangepi5-plus|BoughBoot|g" -i etc/hostname
