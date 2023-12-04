@@ -66,10 +66,7 @@ Bootmenu () {
 #echo Starting bootmenu
 Bootmenu
 #echo Finished bootmenu
-if [ -z "$bootselection" ]
-then
-    exit 0
-fi
+if [ -z "$bootselection" ]; then exit 0; fi
 #echo $bootselection
 cp "$bootselection" "$nextbootEnv"
 sync
