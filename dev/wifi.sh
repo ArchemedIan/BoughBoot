@@ -1,5 +1,30 @@
 #!/bin/bash
+export NEWT_COLORS='
+root=brown,black
+border=brown,black
+window=brown,black
+shadow=brown,black
+title=brown,black
+textbox=brown,black
+button=black,brown
+actbutton=white,white
+checkbox=brown,black
+actcheckbox=black,brown
+entry=black,brown
+label=white,white
+listbox=brown,black
+actlistbox=black,brown
+acttextbox=white,white
+helpline=white,white
+roottext=brown,black
+emptyscale=black,black
+fullscale=brown,brown
+disentry=white,white
+compactbutton=brown,black
+actsellistbox=black,brown
+sellistbox=white,white
 
+'
 ## Restores the screen when the program exits.
 trap "tput rmcup; exit"  SIGHUP SIGINT SIGTERM
 
