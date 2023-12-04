@@ -42,7 +42,7 @@ while read interface; do                    # While reads a line of the output
     status=$(awk '{print $3}' <<< $interface)     # Saves the status of the current interface.
     interface=$(awk '{print $1}' <<< $interface)  # Selects the INTEFACE field of the output.
     if [[ "$type" == "wifi" ]]; then # If is a WiFi interface then:
-      i2=$((i2+1)) 
+      i=$((i+1)) 
       IfaceList+=("$interface")
       IfaceList+=("$status")
     fi                                          # Ends the if conditional
@@ -60,11 +60,12 @@ fi
 
 ## If the entered number is valid then...
 if [[ "$iface" -le $i ]]; then
+    whiptail --backtitle "WiFi setup" --title "Scanning..." --msgbox "Scanning WiFi Networks" 24 112 16
     while read ssid; do                    
         i2=$((i2+1))
         name=$(awk -F: '{printf $1}' <<< $ssid)     
         rate=$(aawk -F: '{printf $2}' <<< $ssid)
-        sec=$(awk -F: '{printf $3}'| awk '{ print $NF }' <<< $ssid)
+        sec=$(awk -F: '{printf $3}' <<< $ssid| awk '{ print $NF }' )
         bars=$(awk -F: '{printf $4}' <<< $ssid)
         bcount=$(echo -n "$bars"| wc -c)
         bcount=$((5-$bcount))
@@ -74,14 +75,12 @@ if [[ "$iface" -le $i ]]; then
           bars="${bars}-"
           x=$(($x-1))
         done
-        if [[ "$type" == "wifi" ]]; then 
-          i3=$((i3+1)) 
-          SSIDList+=("$name")
-          SSIDList+=("$rate $sec $bars")
-        fi                                          
+        i3=$((i3+1)) 
+        SSIDList+=("$name")
+        SSIDList+=("| $rate | $sec | $bars")                                      
     done < <(nmcli --colors no --terse --fields SSID,RATE,SECURITY,BARS d wifi list)
-    ssidpick=$(whiptail --backtitle "Simple WiFi setup" --title "WiFi SSID List" --menu "Select an SSID" 24 112 16 "${SSIDList[@]}" 3>&1 1>&2 2>&3)
-    password=$(whiptail --backtitle "Simple WiFi setup" --title "WiFi Password Request" --passwordbox "Enter Password for $ssidpick:" 24 112 16>&1 1>&2 2>&3)
+    ssidpick=$(whiptail --title "SSID | RATE | SECURITY | SIGNAL" --menu "Select an SSID" 24 112 16 "${SSIDList[@]}" 3>&1 1>&2 2>&3)
+    password=$(whiptail --backtitle "WiFi setup" --title "WiFi Password Request" --passwordbox "Enter Password for $ssidpick:" 24 112 16>&1 1>&2 2>&3)
     
     #read -p "Enter the SSID or BSSID: " b_ssid # Prompts the user for the ESSID/BSSID
     #read -p "Enter the password: " pass # Prompts the user for the password
