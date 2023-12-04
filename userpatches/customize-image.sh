@@ -7,5 +7,5 @@ echo 'root:dockmox' | chpasswd
 hostname -b BoughBoot
 #systemctl disable openvpn.service wpa_supplicant.service unattended-upgrades.service NetworkManager.service NetworkManager-dispatcher.service networking.service armbian-live-patch.service armbian-hardware-monitor.service
 apt update
-apt install whiptail 
+apt install whiptail hostapd
 apt-get clean
