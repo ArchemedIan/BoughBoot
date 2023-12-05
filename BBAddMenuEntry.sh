@@ -126,13 +126,14 @@ for SDPart in $(ls ${DeviceSelection}*); do
   SDPartitions+=("$SDPart")
   SDPartitions+=("$desc")
 done
-echo "${SDPartitions[@]}"
+#echo "${SDPartitions[@]}"
 for BootOrRoot in $Partlayout; do
+  unset PartitionSelection
   PartitionSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Partition Selection" --menu "Select a $BootOrRoot Partiton:" $boxheight $width $SDPartitionCount "${SDPartitions[@]}" 3>&1 1>&2 2>&3)
-  if [[ "$BootOrRoot" == "boot" ]]; then NBBootNum=$PartitionSelection fi
-  if [[ "$DeviceSelection" == "root" ]]; then 
+  if [[ "$BootOrRoot" == "boot" ]]; then NBBootNum=$PartitionSelection ; fi
+  if [[ "$BootOrRoot" == "root" ]]; then 
      NBRootNum=$PartitionSelection
-     if [[ "$NBBootNum" == "unset" ]]; then NBBootNum=$PartitionSelection fi
+     if [[ "$NBBootNum" == "unset" ]]; then NBBootNum=$PartitionSelection ; fi
   fi
 done
 
