@@ -42,6 +42,7 @@ NBRootNum=unset
 NBPrefix=unset
 NBOSType=unset
 NBnow=0
+EMMCdev=/dev/mmcblk0p
 
 devs=()
 
@@ -52,7 +53,7 @@ devs+=("${EMMCdev}# | $EMMCdevFound")
 
 SDdev=/dev/mmcblk1p
 devs+=("SD Card")
-ls /dev/mmcblk1 && SDdevFound="size: `lsblk -ndo SIZE /dev/mmcblk1 | awk '{printf $1}'`" || SDdevFound="Not Detected" 
+ls /dev/mmcblk1 && SDdevFound="size: `lsblk -ndo SIZE /dev/mmcblk1 | awk '{printf $1}'`" || SDdevFound="Not Detected"
 devs+=("${SDdev}# | $SDdevFound")
 
 NVMEdev=/dev/nvme0n1p
@@ -89,11 +90,11 @@ do
   thisuuid=`blkid $SDPart -o value -s UUID`
   thispartuuid=`blkid $SDPart -o value -s PARTUUID`
   thispartlabel=`blkid $SDPart -o value -s PARTLABEL`
-  
-  if [ -z "$thislabel" ]; then 
-  if [ -z "$thispartlabel" ]; then 
-    if [ -z "$thisuuid" ]; then 
-      if [ -z "$thispartuuid" ]; then 
+
+  if [ -z "$thislabel" ]; then
+  if [ -z "$thispartlabel" ]; then
+    if [ -z "$thisuuid" ]; then
+      if [ -z "$thispartuuid" ]; then
         continue
       else
         desc+="partuuid: $thispartuuid "
@@ -106,17 +107,15 @@ do
   fi
   else
   desc+="label: $thislabel"
-  if [ ! -z "$thispartlabel" ]; then 
+  if [ ! -z "$thispartlabel" ]; then
     desc+=", partlabel: $thispartlabel "
   fi
   fi
-  SDPartitionCount=$((SDPartitionCount+1)) 
+  SDPartitionCount=$((SDPartitionCount+1))
   SDPartitions+=("$SDPart")
   SDPartitions+=("$desc")
 done
 
 
 PartitionSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Partition Selection" --menu "Select a Boot Partiton:" $boxheight $width $SDPartitionCount "${SDPartitions[@]}" 3>&1 1>&2 2>&3)
-if [ -z "$PartitionSelection" ]; then echo no partition selecton...; exit; fi
 echo $PartitionSelection
-
