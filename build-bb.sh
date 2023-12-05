@@ -21,7 +21,6 @@ echo version=$version
 echo armbian_board=$armbian_board
 echo armbian_imgname=$armbian_imgname
 echo boards_name=$boards_name
-sleep 60
 cp -r ./build-bb/userpatches ./armbian/
 chmod a+x ./armbian/userpatches/customize-image.sh
 ls -l
