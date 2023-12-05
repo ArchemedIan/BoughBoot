@@ -42,7 +42,6 @@ NBRootNum=unset
 NBPrefix=unset
 NBOSType=unset
 NBnow=1
-EMMCdev=/dev/mmcblk0p
 
 layouts=()
 layouts+=("1"); layouts+=(" partition. (combined rootfs and /boot)")
@@ -60,17 +59,17 @@ devs=()
 
 EMMCdev=/dev/mmcblk0p
 devs+=("EMMC Module")
-ls /dev/mmcblk0 && EMMCdevFound="size: `lsblk -ndo SIZE /dev/mmcblk0 | awk '{printf $1}'`" || EMMCdevFound="Not Detected"
+ls /dev/mmcblk0 >/dev/null && EMMCdevFound="size: `lsblk -ndo SIZE /dev/mmcblk0 | awk '{printf $1}'`" || EMMCdevFound="Not Detected"
 devs+=("${EMMCdev}# | $EMMCdevFound")
 
 SDdev=/dev/mmcblk1p
 devs+=("SD Card")
-ls /dev/mmcblk1 && SDdevFound="size: `lsblk -ndo SIZE /dev/mmcblk1 | awk '{printf $1}'`" || SDdevFound="Not Detected"
+ls /dev/mmcblk1 >/dev/null&& SDdevFound="size: `lsblk -ndo SIZE /dev/mmcblk1 | awk '{printf $1}'`" || SDdevFound="Not Detected"
 devs+=("${SDdev}# | $SDdevFound")
 
 NVMEdev=/dev/nvme0n1p
 devs+=("NVME")
-ls /dev/mmcblk0 && NVMEdevFound="size: `lsblk -ndo SIZE /dev/nvme0n1 | awk '{printf $1}'`" || NVMEdevFound="Not Detected"
+ls /dev/mmcblk0 >/dev/null&& NVMEdevFound="size: `lsblk -ndo SIZE /dev/nvme0n1 | awk '{printf $1}'`" || NVMEdevFound="Not Detected"
 devs+=("${NVMEdev}# | $NVMEdevFound")
 
 #OTHERdev=/dev/sd
