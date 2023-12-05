@@ -97,7 +97,7 @@ if [[ "$iface" -le $i ]]; then
     fi
     ssidpick=$(whiptail --backtitle "WiFi setup" --title "SSID | RATE | SECURITY | SIGNAL" --menu "Select an SSID" $boxheight $width $listheight "${SSIDList[@]}" 3>&1 1>&2 2>&3)
     if [ -z "$ssidpick" ]; then whiptail --backtitle "WiFi setup" --title "Error..." --msgbox "No Wifi networks found (or none selected.)" $boxheight $width $i2; exit 0; fi
-    password=$(whiptail --backtitle "WiFi setup" --title "WiFi Password Request" --passwordbox "Enter Password for $ssidpick:" $boxheight $width $listheight >&1 1>&2 2>&3)
+    password=$(whiptail --backtitle "WiFi setup" --title "WiFi Password Request" --passwordbox "Enter Password for $ssidpick:" $boxheight $width $listheight 3>&1 1>&2 2>&3)
     if [ -z "$password" ]; then exit 0; fi
   
     output=$(nmcli device wifi connect "$ssidpick" password "$password" ifname "$interface"  ) # Tries to connect
