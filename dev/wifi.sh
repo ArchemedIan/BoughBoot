@@ -92,6 +92,9 @@ if [[ "$iface" -le $i ]]; then
         SSIDList+=("$name")
         SSIDList+=("| $rate | $sec | $bars")                                      
     done < <(nmcli --colors no --terse --fields SSID,RATE,SECURITY,BARS d wifi list)
+    if [[ $i -gt $listheight ]]; then
+        i=$i2
+    fi
     ssidpick=$(whiptail --backtitle "WiFi setup" --title "SSID | RATE | SECURITY | SIGNAL" --menu "Select an SSID" $boxheight $width $listheight "${SSIDList[@]}" 3>&1 1>&2 2>&3)
     if [ -z "$ssidpick" ]; then whiptail --backtitle "WiFi setup" --title "Error..." --msgbox "No Wifi networks found (or none selected.)" $boxheight $width $i2; exit 0; fi
     password=$(whiptail --backtitle "WiFi setup" --title "WiFi Password Request" --passwordbox "Enter Password for $ssidpick:" $boxheight $width $listheight >&1 1>&2 2>&3)
