@@ -5,8 +5,12 @@ nextbootEnv=/boot/BB/NextBootEnv.txt
 NBEnvs=/boot/BB/NBEnvs
 cd $(dirname "$0")
 
-
-
+lines=`tput lines`
+cols=`tput cols`
+export boxheight=`bc <<< "scale=0; ($lines/16)*17"`
+export listheight=`bc <<< "scale=0; ($lines/16)*12"`
+export width=`bc <<< "scale=0; ($cols/16)*15"`
+echo $boxheight $width $listheight
 #systemctl start systemctl disable openvpn.service unattended-upgrades.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
 export NEWT_COLORS='
 root=brown,black
@@ -41,16 +45,20 @@ Bootmenu () {
     BBMenuList=()
     bootselection=
     #echo 
+    BootListLines=0
     for bootEnv in $(ls $NBEnvs/*.txt)
     do
         #echo inside for loop
         #echo getting bootname for $bootEnv
+	BootListLines=$((BootListLines+1)) 
         BBMenuList+=("$(echo $(cat "$bootEnv"| grep BBMenuName=|cut -d '=' -f 2))")
         BBMenuList+=("$(echo $(cat "$bootEnv" | grep BBMenuDescription=|cut -d '=' -f 2))")
     done
-
+    if [[ $BootListLines -gt $listheight ]]; then
+	BootListLines=$listheight
+    fi
     #sleep 3
-    bootselection=$(whiptail --backtitle "BoughBoot Bootmenu Ver: $BBVer" --title "OS List" --menu "Select a Boot Option:" 24 112 16 "${BBMenuList[@]}" 3>&1 1>&2 2>&3)
+    bootselection=$(whiptail --backtitle "BoughBoot Bootmenu Ver: $BBVer" --title "OS List" --menu "Select a Boot Option:" $boxheight $width $BootListLines "${BBMenuList[@]}" 3>&1 1>&2 2>&3)
     if [[ $? -gt 0 ]]; then
 	exit 0
     fi
