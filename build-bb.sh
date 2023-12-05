@@ -105,7 +105,9 @@ else
   rsync -aHSAX -ih $rootdir/build-bb/$bb_ver/ boot/BB
 fi
 
-ln -sr boot/BB/*.txt . 
+mv boot/BB/*Env.txt .
+ln -sr *Env.txt boot/BB/
+
 sync
 tar caf - . | xz -czT0 -6 > $NewTar
 sync
