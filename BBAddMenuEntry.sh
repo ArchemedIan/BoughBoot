@@ -43,10 +43,39 @@ NBPrefix=unset
 NBOSType=unset
 NBnow=0
 
-/dev/mmcblk1p
+devs=()
+
+SDdev=/dev/mmcblk0p
+devs+=("SD Card")
+ls /dev/mmcblk0 && SDdevFound="Not Detected" || SDdevFound="size: `lsblk -ndo SIZE /dev/mmcblk0 | awk '{printf $1}'`"
+devs+=("${SDdev}\# | $SDdevFound")
+
+EMMCdev=/dev/mmcblk1p
+devs+=("EMMC Module")
+ls /dev/mmcblk0 && EMMCdevFound="Not Detected" || EMMCdevFound="size: `lsblk -ndo SIZE /dev/mmcblk1 | awk '{printf $1}'`"
+devs+=("${EMMCdev}\# | $EMMCdevFound")
+
+NVMEdev=/dev/nvme0n1p
+devs+=("NVME")
+ls /dev/mmcblk0 && NVMEdevFound="Not Detected" || NVMEdevFound="size: `lsblk -ndo SIZE /dev/nvme0n1 | awk '{printf $1}'`"
+devs+=("${NVMEdev}\# | $NVMEdevvFound")
+
+OTHERdev=/dev/sd
+devs+=("USB,SATA (Experimental)")
+devs+=("${OTHERdev}X\#")
+
+
+DeviceSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Device Selection" --menu "Select Device OS is on:" $boxheight $width 6 "${devs[@]}" 3>&1 1>&2 2>&3)
+if [[ "$DeviceSelection" == "SD Card" ]]; then DeviceSelection=$SDdev; NBDevType=mmc ; fi
+if [[ "$DeviceSelection" == "EMMC Module" ]]; then DeviceSelection=$EMMCdev; NBDevType=mmc ; fi
+if [[ "$DeviceSelection" == "NVME" ]]; then DeviceSelection=$NVMEdev; NBDevType=nvme ; fi
+if [[ "$DeviceSelection" == "USB" ]]; then DeviceSelection=$OTHERdev; NBDevType=usb ; fi
+if [[ "$DeviceSelection" == "SATA (Experimental)" ]]; then DeviceSelection=$OTHERdev; NBDevType=sata ; fi
+if [ -z "$DeviceSelection" ]; then echo no device selecton...; exit; fi
+
 
 SDPartitions=()
-for SDPart in $(ls /dev/mmcblk0p*)
+for SDPart in $(ls ${DeviceSelection}*)
 do
   unset thislabel
   unset thisuuid
@@ -85,5 +114,6 @@ done
 
 
 PartitionSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Partition Selection" --menu "Select a Boot Partiton:" $boxheight $width $SDPartitionCount "${SDPartitions[@]}" 3>&1 1>&2 2>&3)
+if [ -z "$PartitionSelection" ]; then echo no partition selecton...; exit; fi
 echo $PartitionSelection
 
