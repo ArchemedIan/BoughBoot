@@ -5,7 +5,7 @@ cols=`tput cols`
 export boxheight=`bc <<< "scale=0; ($lines/16)*17"`
 export listheight=`bc <<< "scale=0; ($lines/16)*12"`
 export width=`bc <<< "scale=0; ($cols/16)*15"`
-echo $boxheight $width $listheight
+#echo $boxheight $width $listheight
 
 export NEWT_COLORS='
 root=brown,black
@@ -45,8 +45,8 @@ NBnow=1
 EMMCdev=/dev/mmcblk0p
 
 layouts=()
-layouts+=("1"); devs+=(" partition. (combined rootfs and /boot)")
-layouts+=("2"); devs+=(" or more partitions. part1: /boot part2: / (rootfs) 3+:...")
+layouts+=("1"); layouts+=(" partition. (combined rootfs and /boot)")
+layouts+=("2"); layouts+=(" or more partitions. part1: /boot part2: / (rootfs) 3+:...")
 #layouts+=("3"); devs+=(" android? ")
 #layouts+=("3"); devs+=(" openwrt? ")
 
@@ -71,7 +71,7 @@ devs+=("${SDdev}# | $SDdevFound")
 NVMEdev=/dev/nvme0n1p
 devs+=("NVME")
 ls /dev/mmcblk0 && NVMEdevFound="size: `lsblk -ndo SIZE /dev/nvme0n1 | awk '{printf $1}'`" || NVMEdevFound="Not Detected"
-devs+=("${NVMEdev}# | $NVMEdevvFound")
+devs+=("${NVMEdev}# | $NVMEdevFound")
 
 #OTHERdev=/dev/sd
 #devs+=("USB")
@@ -104,24 +104,24 @@ do
   thispartlabel=`blkid $SDPart -o value -s PARTLABEL`
 
   if [ -z "$thislabel" ]; then
-  if [ -z "$thispartlabel" ]; then
-    if [ -z "$thisuuid" ]; then
-      if [ -z "$thispartuuid" ]; then
-        continue
+    if [ -z "$thispartlabel" ]; then
+      if [ -z "$thisuuid" ]; then
+        if [ -z "$thispartuuid" ]; then
+          continue
+        else
+          desc+="partuuid: $thispartuuid "
+        fi
       else
-        desc+="partuuid: $thispartuuid "
+        desc+="uuid: $thisuuid "
       fi
     else
-      desc+="uuid: $thisuuid "
+      desc+="partlabel: $thispartlabel "
     fi
-  else
-    desc+="partlabel: $thispartlabel "
-  fi
-  else
-  desc+="label: $thislabel"
-  if [ ! -z "$thispartlabel" ]; then
-    desc+=", partlabel: $thispartlabel "
-  fi
+    else
+    desc+="label: $thislabel"
+    if [ ! -z "$thispartlabel" ]; then
+      desc+=", partlabel: $thispartlabel "
+    fi
   fi
   SDPartitionCount=$((SDPartitionCount+1))
   SDPartitions+=("$SDPart")
@@ -138,7 +138,7 @@ done
 
 
 
-echo 
+echo
 echo BBMenuName=$BBMenuName
 echo BBMenuDescription=$BBMenuDescription
 echo NBDevType=$NBDevType
