@@ -64,12 +64,12 @@ devs+=("${EMMCdev}# | $EMMCdevFound")
 
 SDdev=/dev/mmcblk1p
 devs+=("SD Card")
-ls /dev/mmcblk1 >/dev/null&& SDdevFound="size: `lsblk -ndo SIZE /dev/mmcblk1 | awk '{printf $1}'`" || SDdevFound="Not Detected"
+ls /dev/mmcblk1 >/dev/null && SDdevFound="size: `lsblk -ndo SIZE /dev/mmcblk1 | awk '{printf $1}'`" || SDdevFound="Not Detected"
 devs+=("${SDdev}# | $SDdevFound")
 
 NVMEdev=/dev/nvme0n1p
 devs+=("NVME")
-ls /dev/mmcblk0 >/dev/null&& NVMEdevFound="size: `lsblk -ndo SIZE /dev/nvme0n1 | awk '{printf $1}'`" || NVMEdevFound="Not Detected"
+ls /dev/mmcblk0 >/dev/null && NVMEdevFound="size: `lsblk -ndo SIZE /dev/nvme0n1 | awk '{printf $1}'`" || NVMEdevFound="Not Detected"
 devs+=("${NVMEdev}# | $NVMEdevFound")
 
 #OTHERdev=/dev/sd
