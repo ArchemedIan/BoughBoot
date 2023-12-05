@@ -1,6 +1,6 @@
 BBDevType=unset
 BBDevNum=unset
 BBRootNum=unset
-BBEnvNum=unset
 BBfdtfile=unset
+BBoverlays=unset
 BBEnvFileSize=unset
