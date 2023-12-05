@@ -6,7 +6,7 @@ export boxheight=`bc <<< "scale=0; ($lines/16)*17"`
 export listheight=`bc <<< "scale=0; ($lines/16)*12"`
 export width=`bc <<< "scale=0; ($cols/16)*15"`
 echo $boxheight $width $listheight
-#systemctl start systemctl disable openvpn.service unattended-upgrades.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
+
 export NEWT_COLORS='
 root=brown,black
 border=brown,black
