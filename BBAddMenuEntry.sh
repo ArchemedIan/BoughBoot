@@ -41,8 +41,20 @@ NBBootNum=unset
 NBRootNum=unset
 NBPrefix=unset
 NBOSType=unset
-NBnow=0
+NBnow=1
 EMMCdev=/dev/mmcblk0p
+
+layouts=()
+layouts+=("1"); devs+=(" partition. (combined rootfs and /boot)")
+layouts+=("2"); devs+=(" or more partitions. part1: /boot part2: / (rootfs) 3+:...")
+#layouts+=("3"); devs+=(" android? ")
+#layouts+=("3"); devs+=(" openwrt? ")
+
+Partlayout=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "OS Partition Layout" --menu "Select a layout:" $boxheight $width 6 "${layouts[@]}" 3>&1 1>&2 2>&3)
+
+if [[ "$Partlayout" == "1" ]]; then Partlayout="root"; fi
+if [[ "$Partlayout" == "2" ]]; then Partlayout="boot root"; fi
+
 
 devs=()
 
@@ -61,23 +73,23 @@ devs+=("NVME")
 ls /dev/mmcblk0 && NVMEdevFound="size: `lsblk -ndo SIZE /dev/nvme0n1 | awk '{printf $1}'`" || NVMEdevFound="Not Detected"
 devs+=("${NVMEdev}# | $NVMEdevvFound")
 
-OTHERdev=/dev/sd
-devs+=("USB")
-devs+=("${OTHERdev}X#")
+#OTHERdev=/dev/sd
+#devs+=("USB")
+#devs+=("${OTHERdev}X#")
 
-devs+=("SATA (Experimental)")
-devs+=("${OTHERdev}X#")
+#devs+=("SATA (Experimental)")
+#devs+=("${OTHERdev}X#")
 
 
 DeviceSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Device Selection" --menu "Select Device OS is on:" $boxheight $width 6 "${devs[@]}" 3>&1 1>&2 2>&3)
-if [[ "$DeviceSelection" == "SD Card" ]]; then DeviceSelection=$SDdev; NBDevType=mmc; NBDevNum=1 ; fi
 if [[ "$DeviceSelection" == "EMMC Module" ]]; then DeviceSelection=$EMMCdev; NBDevType=mmc; NBDevNum=0; fi
-if [[ "$DeviceSelection" == "NVME" ]]; then DeviceSelection=$NVMEdev; NBDevType=nvme ; fi
-if [[ "$DeviceSelection" == "USB" ]]; then DeviceSelection=$OTHERdev; NBDevType=usb ; fi
-if [[ "$DeviceSelection" == "SATA (Experimental)" ]]; then DeviceSelection=$OTHERdev; NBDevType=sata ; fi
+if [[ "$DeviceSelection" == "SD Card" ]]; then DeviceSelection=$SDdev; NBDevType=mmc; NBDevNum=1 ; fi
+if [[ "$DeviceSelection" == "NVME" ]]; then DeviceSelection=$NVMEdev; NBDevType=nvme NBDevNum=0; fi
+#if [[ "$DeviceSelection" == "USB" ]]; then DeviceSelection=$OTHERdev; NBDevType=usb; NBDevNum=uuid ; fi
+#if [[ "$DeviceSelection" == "SATA (Experimental)" ]]; then DeviceSelection=$OTHERdev; NBDevType=sata; NBDevNum=uuid ; fi
 if [ -z "$DeviceSelection" ]; then echo no device selecton...; exit; fi
 
-
+#ls /dev/sd[a-z]
 SDPartitions=()
 for SDPart in $(ls ${DeviceSelection}*)
 do
@@ -115,7 +127,24 @@ do
   SDPartitions+=("$SDPart")
   SDPartitions+=("$desc")
 done
+for BootOrRoot in $Partlayout; do
+  PartitionSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Partition Selection" --menu "Select a $BootOrRoot Partiton:" $boxheight $width $SDPartitionCount "${SDPartitions[@]}" 3>&1 1>&2 2>&3)
+  if [[ "$BootOrRoot" == "boot" ]]; then NBBootNum=$PartitionSelection fi
+  if [[ "$DeviceSelection" == "root" ]]; then 
+     NBRootNum=$PartitionSelection
+     if [[ "$NBBootNum" == "unset" ]]; then NBBootNum=$PartitionSelection fi
+  fi
+done
 
 
-PartitionSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Partition Selection" --menu "Select a Boot Partiton:" $boxheight $width $SDPartitionCount "${SDPartitions[@]}" 3>&1 1>&2 2>&3)
-echo $PartitionSelection
+
+echo 
+echo BBMenuName=$BBMenuName
+echo BBMenuDescription=$BBMenuDescription
+echo NBDevType=$NBDevType
+echo NBDevNum=$NBDevNum
+echo NBBootNum=$NBBootNum
+echo NBRootNum=$NBRootNum
+echo NBPrefix=$NBPrefix
+echo NBOSType=$NBOSType
+echo NBnow=$NBnow
