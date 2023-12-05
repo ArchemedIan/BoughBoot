@@ -64,26 +64,26 @@ do
       if [ -z "$thispartuuid" ]; then 
         continue
       else
-        desc+="partuuid=$thispartuuid "
+        desc+="partuuid: $thispartuuid "
       fi
     else
-      desc+="uuid=$thisuuid "
+      desc+="uuid: $thisuuid "
     fi
   else
-    desc+="partlabel=$thispartlabel "
+    desc+="partlabel: $thispartlabel "
   fi
   else
-  desc+="label=$thislabel"
+  desc+="label: $thislabel"
   if [ ! -z "$thispartlabel" ]; then 
-    desc+=", $thispartlabel "
+    desc+=", partlabel: $thispartlabel "
   fi
   fi
   SDPartitionCount=$((SDPartitionCount+1)) 
   SDPartitions+=("$SDPart")
   SDPartitions+=("$desc")
 done
-echo "${SDPartitions[0]}"
-echo
-echo "${SDPartitions[1]}"
 
+
+PartitionSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Partition Selection" --menu "Select a Boot Partiton:" $boxheight $width $SDPartitionCount "${SDPartitions[@]}" 3>&1 1>&2 2>&3)
+echo $PartitionSelection
 
