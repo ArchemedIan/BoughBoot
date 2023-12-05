@@ -45,24 +45,27 @@ NBnow=0
 
 devs=()
 
-SDdev=/dev/mmcblk0p
-devs+=("SD Card")
-ls /dev/mmcblk0 && SDdevFound="Not Detected" || SDdevFound="size: `lsblk -ndo SIZE /dev/mmcblk0 | awk '{printf $1}'`"
-devs+=("${SDdev}\# | $SDdevFound")
-
-EMMCdev=/dev/mmcblk1p
+EMMCdev=/dev/mmcblk0p
 devs+=("EMMC Module")
-ls /dev/mmcblk0 && EMMCdevFound="Not Detected" || EMMCdevFound="size: `lsblk -ndo SIZE /dev/mmcblk1 | awk '{printf $1}'`"
-devs+=("${EMMCdev}\# | $EMMCdevFound")
+ls /dev/mmcblk0 && EMMCdevFound="size: `lsblk -ndo SIZE /dev/mmcblk0 | awk '{printf $1}'`" || EMMCdevFound="Not Detected"
+devs+=("${EMMCdev}# | $EMMCdevFound")
+
+SDdev=/dev/mmcblk1p
+devs+=("SD Card")
+ls /dev/mmcblk1 && SDdevFound="size: `lsblk -ndo SIZE /dev/mmcblk1 | awk '{printf $1}'`" || SDdevFound="Not Detected" 
+devs+=("${SDdev}# | $SDdevFound")
 
 NVMEdev=/dev/nvme0n1p
 devs+=("NVME")
-ls /dev/mmcblk0 && NVMEdevFound="Not Detected" || NVMEdevFound="size: `lsblk -ndo SIZE /dev/nvme0n1 | awk '{printf $1}'`"
-devs+=("${NVMEdev}\# | $NVMEdevvFound")
+ls /dev/mmcblk0 && NVMEdevFound="size: `lsblk -ndo SIZE /dev/nvme0n1 | awk '{printf $1}'`" || NVMEdevFound="Not Detected"
+devs+=("${NVMEdev}# | $NVMEdevvFound")
 
 OTHERdev=/dev/sd
-devs+=("USB,SATA (Experimental)")
-devs+=("${OTHERdev}X\#")
+devs+=("USB")
+devs+=("${OTHERdev}X#")
+
+devs+=("SATA (Experimental)")
+devs+=("${OTHERdev}X#")
 
 
 DeviceSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Device Selection" --menu "Select Device OS is on:" $boxheight $width 6 "${devs[@]}" 3>&1 1>&2 2>&3)
