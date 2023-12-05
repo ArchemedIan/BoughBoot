@@ -118,9 +118,10 @@ do
       desc+="partlabel: $thispartlabel "
     fi
     else
-    desc+="label: $thislabel"
-    if [ ! -z "$thispartlabel" ]; then
-      desc+=", partlabel: $thispartlabel "
+      desc+="label: $thislabel"
+      if [ ! -z "$thispartlabel" ]; then
+        desc+=", partlabel: $thispartlabel "
+      fi
     fi
   fi
   SDPartitionCount=$((SDPartitionCount+1))
