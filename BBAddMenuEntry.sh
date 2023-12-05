@@ -126,6 +126,7 @@ for SDPart in $(ls ${DeviceSelection}*); do
   SDPartitions+=("$SDPart")
   SDPartitions+=("$desc")
 done
+echo "${SDPartitions[@]}"
 for BootOrRoot in $Partlayout; do
   PartitionSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Partition Selection" --menu "Select a $BootOrRoot Partiton:" $boxheight $width $SDPartitionCount "${SDPartitions[@]}" 3>&1 1>&2 2>&3)
   if [[ "$BootOrRoot" == "boot" ]]; then NBBootNum=$PartitionSelection fi
