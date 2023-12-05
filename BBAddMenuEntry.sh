@@ -51,9 +51,10 @@ layouts+=("2"); layouts+=(" or more partitions. part1: /boot part2: / (rootfs) 3
 
 Partlayout=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "OS Partition Layout" --menu "Select a layout:" $boxheight $width 6 "${layouts[@]}" 3>&1 1>&2 2>&3)
 
-if [[ "$Partlayout" == "1" ]]; then Partlayout="root"; fi
-if [[ "$Partlayout" == "2" ]]; then Partlayout="boot root"; fi
+if [[ "$Partlayout" == "1" ]]; then Partlayout="root"; NBPrefix=/boot/; fi
+if [[ "$Partlayout" == "2" ]]; then Partlayout="boot root"; NBPrefix=/; fi
 
+NBOSType=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Set OS Type" --inputbox "Enter the OS Type.\n\nNOTE: this will be used as a prefix to look for an *Env.txt file, if no bootscript or override is found for booting this OS\n\nso if your Env.txt file is \"ubuntuEnv.txt\", set ostype to \"ubuntu\"" $boxheight $width 3>&1 1>&2 2>&3)
 
 devs=()
 
@@ -129,15 +130,46 @@ done
 for BootOrRoot in $Partlayout; do
   unset PartitionSelection
   PartitionSelection=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Partition Selection" --menu "Select a $BootOrRoot Partiton:" $boxheight $width $SDPartitionCount "${SDPartitions[@]}" 3>&1 1>&2 2>&3)
-  if [[ "$BootOrRoot" == "boot" ]]; then NBBootNum=$PartitionSelection ; fi
+  if [[ "$BootOrRoot" == "boot" ]]; then NBBootNum=${PartitionSelection: -1} ; fi
   if [[ "$BootOrRoot" == "root" ]]; then 
-     NBRootNum=$PartitionSelection
-     if [[ "$NBBootNum" == "unset" ]]; then NBBootNum=$PartitionSelection ; fi
+     NBRootNum=${PartitionSelection: -1}
+     if [[ "$NBBootNum" == "unset" ]]; then NBBootNum=${PartitionSelection: -1} ; fi
   fi
 done
 
+BBMenuName=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Set Menu Item Name" --inputbox "Enter a name for the boot menu entry:" $boxheight $width 3>&1 1>&2 2>&3)
+BBMenuDescription=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Set Menu Item Description" --inputbox "Enter a short description for the boot menu entry:\n" $boxheight $width 3>&1 1>&2 2>&3)
 
+NBEntryFileName=${BBMenuName}
+unset i
+NewNBEntryFileName=${NBEntryFileName}
+while :; do
+  if [[ -f "${NBEnvs}/${NewNBEntryFileName}.txt" ]]; then
+    i=$((i+1))
+    NewNBEntryFileName=${NBEntryFileName}$i
+  else
+    NBEntryFileName=${NewNBEntryFileName}
+    break
+  fi
+done
+NBEntryFileName=$(whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Set Menu Item Name" --inputbox "Enter a name for the boot menu entry file:\n\nThis affects how the entry is sorted, keep that in mind...\n\nOutput: /boot/BB/NBEnvs/<Entry Name>.txt" $boxheight $width "$NBEntryFileName" 3>&1 1>&2 2>&3)
+unset i
+NewNBEntryFileName=${NBEntryFileName}
+while :; do
+  if [[ -f "${NBEnvs}/${NewNBEntryFileName}.txt" ]]; then
+    i=$((i+1))
+    NewNBEntryFileName=${NBEntryFileName}$i
+  else
+    NBEntryFileName=${NewNBEntryFileName}
+    break
+  fi
+done
 
+NBEntryFileName=${NBEnvs}/${NBEntryFileName}.txt
+
+output=`cat <<EOF
+echo
+echo output: ${NBEntryFileName} :
 echo
 echo BBMenuName=$BBMenuName
 echo BBMenuDescription=$BBMenuDescription
@@ -148,3 +180,28 @@ echo NBRootNum=$NBRootNum
 echo NBPrefix=$NBPrefix
 echo NBOSType=$NBOSType
 echo NBnow=$NBnow
+echo
+`
+whiptail --backtitle "BoughBoot Bootmenu Entry Maker" --title "Confirm Entry" --yesno "BBMenuName=${BBMenuName}\nBBMenuDescription=${BBMenuDescription}\nNBDevType=${NBDevType}\nNBDevNum=${NBDevNum}\nNBBootNum=${NBBootNum}\nNBRootNum=${NBRootNum}\nNBPrefix=${NBPrefix}\nNBOSType=${NBOSType}\nNBnow=${NBnow}\n\nWrite values to ${NBEntryFileName}?" $boxheight $width
+if [[ $? -eq 0 ]]; then
+  echo BBMenuName=$BBMenuName > "${NBEntryFileName}"
+  echo BBMenuDescription=$BBMenuDescription >> "${NBEntryFileName}"
+  echo NBDevType=$NBDevType >> "${NBEntryFileName}"
+  echo NBDevNum=$NBDevNum >> "${NBEntryFileName}"
+  echo NBBootNum=$NBBootNum >> "${NBEntryFileName}"
+  echo NBRootNum=$NBRootNum >> "${NBEntryFileName}"
+  echo NBPrefix=$NBPrefix >> "${NBEntryFileName}"
+  echo NBOSType=$NBOSType >> "${NBEntryFileName}"
+  echo NBnow=$NBnow >> "${NBEntryFileName}"
+  whiptail --title "MESSAGE" --msgbox "Wrote ${NBEntryFileName}." $boxheight $width
+elif [[ $? -eq 1 ]]; then
+  whiptail --title "MESSAGE" --msgbox "Cancelling Process since user pressed <NO>." $boxheight $width
+elif [[ $? -eq 255 ]]; then
+  whiptail --title "MESSAGE" --msgbox "User pressed ESC. Exiting the script" $boxheight $width
+fi
+
+exit
+
+
+
+
