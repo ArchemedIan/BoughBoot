@@ -91,8 +91,7 @@ if [ -z "$DeviceSelection" ]; then echo no device selecton...; exit; fi
 
 #ls /dev/sd[a-z]
 SDPartitions=()
-for SDPart in $(ls ${DeviceSelection}*)
-do
+for SDPart in $(ls ${DeviceSelection}*); do
   unset thislabel
   unset thisuuid
   unset thispartuuid
@@ -117,11 +116,10 @@ do
     else
       desc+="partlabel: $thispartlabel "
     fi
-    else
-      desc+="label: $thislabel"
-      if [ ! -z "$thispartlabel" ]; then
-        desc+=", partlabel: $thispartlabel "
-      fi
+  else
+    desc+="label: $thislabel"
+    if [ ! -z "$thispartlabel" ]; then
+      desc+=", partlabel: $thispartlabel "
     fi
   fi
   SDPartitionCount=$((SDPartitionCount+1))
