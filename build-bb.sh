@@ -57,7 +57,7 @@ mklabel gpt \
 mkpart primary ext4 16MiB -32768s \
 name 1 BoughBoot
 partprobe $NewImgloopdev
-mkfs.ext4 -L Boughboot ${NewImgloopdev}p1
+mkfs.ext4 -L BoughBoot ${NewImgloopdev}p1
 partprobe $NewImgloopdev
 dd if=$rootdir/bb/idbloader.img of=${NewImgloopdev} seek=64 conv=notrunc status=none
 dd if=$rootdir/bb/u-boot.itb of=${NewImgloopdev} seek=16384 conv=notrunc status=none
@@ -69,14 +69,14 @@ NewImgDir=$rootdir/$NewName
 mount ${NewImgloopdev}p1 $NewImgDir
 rsync -aHSAX -ih 2/ $NewImgDir >/dev/null
 sync
-mkdir $NewImgDir/boot/u-boot-Boughboot
-mkdir $rootdir/out/u-boot-Boughboot/
-cp $rootdir/bb/u-boot* $NewImgDir/boot/u-boot-Boughboot/
-cp $rootdir/bb/idbloader.img $NewImgDir/boot/u-boot-Boughboot/
-cp $rootdir/bb/idbloader-spi.img $NewImgDir/boot/u-boot-Boughboot/
-#cp $rootdir/bb/u-boot* $rootdir/out/u-boot-Boughboot/
-#cp $rootdir/bb/idbloader.img $rootdir/out/u-boot-Boughboot/
-#cp $rootdir/bb/idbloader-spi.img $rootdir/out/u-boot-Boughboot/
+mkdir $NewImgDir/boot/u-boot-BoughBoot
+mkdir $rootdir/out/u-boot-BoughBoot/
+cp $rootdir/bb/u-boot* $NewImgDir/boot/u-boot-BoughBoot/
+cp $rootdir/bb/idbloader.img $NewImgDir/boot/u-boot-BoughBoot/
+cp $rootdir/bb/idbloader-spi.img $NewImgDir/boot/u-boot-BoughBoot/
+#cp $rootdir/bb/u-boot* $rootdir/out/u-boot-BoughBoot/
+#cp $rootdir/bb/idbloader.img $rootdir/out/u-boot-BoughBoot/
+#cp $rootdir/bb/idbloader-spi.img $rootdir/out/u-boot-BoughBoot/
 bakdir=$(pwd)
 cd $NewImgDir
 rootuuid=`blkid -s UUID -o value ${NewImgloopdev}p1`
