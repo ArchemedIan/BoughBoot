@@ -1,11 +1,15 @@
 #!/bin/bash
-echo 15032385536B | tee $SDCARD/root/.rootfs_resize
-sed 's|echo -e "Old partition table:\\n"|unset newpartition|g' -i $SDCARD/usr/lib/armbian/armbian-resize-filesystem
-rm $SDCARD/root/.not_logged_in_yet
-#touch /root/.no_rootfs_resize
-echo 'root:boughboot' | chpasswd
+echo 15032385536B | tee /root/.rootfs_resize
+sed 's|echo -e "Old partition table:\\n"|unset newpartition|g' -i /usr/lib/armbian/armbian-resize-filesystem
+rm /root/.not_logged_in_yet
+echo 'root:BoughBoot' | chpasswd
 hostname -b BoughBoot
-#systemctl disable openvpn.service wpa_supplicant.service unattended-upgrades.service NetworkManager.service NetworkManager-dispatcher.service networking.service armbian-live-patch.service armbian-hardware-monitor.service
-apt update
+#apt update
 apt install whiptail hostapd
+bakdir=$(pwd)
+cd $SDCARD/usr/share/plymouth/themes
+tar xvf /tmp/overlay/plymouth-bb.tar .
+cd $bakdir
+sed "s|^Theme=armbian|Theme=bb|g" -i /etc/plymouth/plymouthd.conf
+update-initramfs -u
 
