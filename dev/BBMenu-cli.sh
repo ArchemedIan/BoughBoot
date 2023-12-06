@@ -1,9 +1,10 @@
-#!/usr/bin/bash 
+#!/usr/bin/bash
 BBVer=alpha1
 bbenv=/boot/BB/BoughBootEnv.txt
 nextbootEnv=/boot/BB/NextBootEnv.txt
 NBEnvs=/boot/BB/NBEnvs
 cd $(dirname "$0")
+
 
 lines=`tput lines`
 cols=`tput cols`
@@ -11,6 +12,7 @@ export boxheight=`bc <<< "scale=0; ($lines/16)*17"`
 export listheight=`bc <<< "scale=0; ($lines/16)*12"`
 export width=`bc <<< "scale=0; ($cols/16)*15"`
 echo $boxheight $width $listheight
+
 #systemctl start systemctl disable openvpn.service unattended-upgrades.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
 export NEWT_COLORS='
 root=brown,black
@@ -39,36 +41,46 @@ sellistbox=white,white
 
 '
 
+
 Bootmenu () {
     #echo function begin
-    bootnow=
-    BBMenuList=()
-    bootselection=
-    #echo 
-    BootListLines=0
-    for bootEnv in $(ls $NBEnvs/*.txt)
+BBMenuList=()
+bootselection=
+bootnow=
+bootselection=
+BootListLines=0
+    #for bootEnv in $(ls "$NBEnvs/*.txt")
+     while read -d $'\0' bootEnv
     do
         #echo inside for loop
-        #echo getting bootname for $bootEnv
-	BootListLines=$((BootListLines+1)) 
-        BBMenuList+=("$(echo $(cat "$bootEnv"| grep BBMenuName=|cut -d '=' -f 2))")
-        BBMenuList+=("$(echo $(cat "$bootEnv" | grep BBMenuDescription=|cut -d '=' -f 2))")
-    done
+        echo getting bootname for $bootEnv
+        export BootListLines=$((BootListLines+1))
+        export BBMenuList+=("$(echo $(cat "$bootEnv"| grep BBMenuName=|cut -d '=' -f 2))")
+        export BBMenuList+=("$(echo $(cat "$bootEnv" | grep BBMenuDescription=|cut -d '=' -f 2))")
+
+    done< <(find $NBEnvs/*.txt -print0)
+
+        echo
+        echo "${BBMenuList[@]}"
+        echo
+        sleep 3
     if [[ $BootListLines -gt $listheight ]]; then
-	BootListLines=$listheight
+        BootListLines=$listheight
     fi
-    #sleep 3
+
     bootselection=$(whiptail --backtitle "BoughBoot Bootmenu Ver: $BBVer" --title "OS List" --menu "Select a Boot Option:" $boxheight $width $BootListLines "${BBMenuList[@]}" 3>&1 1>&2 2>&3)
+
     if [[ $? -gt 0 ]]; then
-	exit 0
+        exit 0
     fi
-    for bootEnv in $(ls ${NBEnvs}/*.txt)
+
+    while read -d $'\0' bootEnv
     do
         if cat "$bootEnv"| grep -e "BBMenuName=$bootselection"
         then
             bootselection=$bootEnv
         fi
-    done
+    done< <(find $NBEnvs/*.txt -print0)
 }
 
 #echo Starting bootmenu
@@ -99,7 +111,7 @@ COUNTER=0
 while [[ ${COUNTER} -le 100 ]]; do
   sleep 1
   COUNTER=$(($COUNTER+10))
-  echo ${COUNTER} 
+  echo ${COUNTER}
 done | whiptail --gauge "Running Data Loader" 6 50 ${COUNTER}
 
 
@@ -120,7 +132,7 @@ whiptail --title "input test" --infobox "NEW_USER = $NEW_USER" 8 78
 
 
 
-whiptail --title "theme testing" --msgbox "ðŸŠtesting this thememememememe" 8 78
+whiptail --title "theme testing" --msgbox "ðŸŠtesting this thememememememe" 8 78
 whiptail --title "CONFIRMATION" --yesno "Should I proceed" 8 78
 if [[ $? -eq 0 ]]; then
   whiptail --title "MESSAGE" --msgbox "Process completed successfully." 8 78
