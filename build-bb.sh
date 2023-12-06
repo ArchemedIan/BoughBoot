@@ -84,6 +84,7 @@ echo rootuuid is $rootuuid
 sed "s|UUID=.* / |UUID=$rootuuid / |g" -i etc/fstab
 sync
 sed  "s|UUID=.* /boot|#UUID= /boot|g" -i etc/fstab
+
 rsync -aHSAX -ih etc/skel/ root >/dev/null
 echo chmod a+x /boot/BB/*.sh > root/.bashrc
 echo alias BBMenu-cli=/boot/BB/BBMenu-cli.sh >> root/.bashrc
@@ -93,14 +94,19 @@ echo alias bbmenu=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias bb=/boot/BB/BBMenu-cli.sh >> root/.bashrc
 echo alias wifi=/boot/BB/wifi.sh>> root/.bashrc
 echo "alias network=\"echo y| armbian-config main=Network\"">> root/.bashrc
+
 echo /boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
+
 sed "s|orangepi5-plus|BoughBoot|g" -i etc/hostname
 sed "s|orangepi5-plus|BoughBoot|g" -i etc/hosts
-mkdir boot/BB
 
+mkdir boot/BB
 if [[ "$bb_ver" == *"-dev"* ]]; then
   rsync -aHSAX -ih $rootdir/build-bb/dev/ boot/BB
 else
+  echo "WOW testing $bb_ver release"
+  echo "WOW testing $bb_ver release"
+  echo "WOW testing $bb_ver release"
   rsync -aHSAX -ih $rootdir/build-bb/$bb_ver/ boot/BB
 fi
 
