@@ -8,9 +8,9 @@ cd $(dirname "$0")
 
 lines=`tput lines`
 cols=`tput cols`
-export boxheight=`bc <<< "scale=0; ($lines/16)*17"`
-export listheight=`bc <<< "scale=0; ($lines/16)*12"`
-export width=`bc <<< "scale=0; ($cols/16)*15"`
+export boxheight=`bc <<< "scale=0; ($lines/16)*13"`
+export listheight=`bc <<< "scale=0; ($lines/16)*9"`
+export width=`bc <<< "scale=0; ($cols/16)*13"`
 echo $boxheight $width $listheight
 
 #systemctl start systemctl disable openvpn.service unattended-upgrades.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
@@ -53,17 +53,17 @@ BootListLines=0
      while read -d $'\0' bootEnv
     do
         #echo inside for loop
-        echo getting bootname for $bootEnv
+        #echo getting bootname for $bootEnv
         export BootListLines=$((BootListLines+1))
         export BBMenuList+=("$(echo $(cat "$bootEnv"| grep BBMenuName=|cut -d '=' -f 2))")
         export BBMenuList+=("$(echo $(cat "$bootEnv" | grep BBMenuDescription=|cut -d '=' -f 2))")
 
     done< <(find $NBEnvs/*.txt -print0)
 
-        echo
-        echo "${BBMenuList[@]}"
-        echo
-        sleep 3
+        #echo
+        #echo "${BBMenuList[@]}"
+        #echo
+        #sleep 3
     if [[ $BootListLines -gt $listheight ]]; then
         BootListLines=$listheight
     fi
