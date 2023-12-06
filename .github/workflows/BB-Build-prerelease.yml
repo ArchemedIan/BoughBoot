@@ -1,5 +1,5 @@
-name: Build BoughBoot-dev
-run-name: Build BoughBoot-${{ inputs.bb_ver }}-dev
+name: Build BoughBoot-prerelease
+run-name: Build BoughBoot-${{ inputs.bb_ver }}-prerelease
 on:
   workflow_dispatch:
     inputs:
@@ -126,8 +126,14 @@ jobs:
           chmod a+x ./build-bb.sh
           sudo ./build-bb.sh "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}" "${{ matrix.boards.name }}"
 
-      - name: Upload BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
-        uses: actions/upload-artifact@v3
+      - name: Create BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
+        uses: ncipollo/release-action@v1.13.0
         with:
+          allowUpdates: true
+          commit: linux-6.7
           name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
-          path: out/*.xz
+          tag: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-${{ env.DATE }}
+          replacesArtifacts: true
+          prerelease: true
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          artifacts: out/*.xz
