@@ -6,7 +6,7 @@ on:
       bb_ver:
         description: version
         required: true
-        default: 1.0
+        default: "alpha1"
         type: string
       uboot_gh_repo:
         description: u-boot github repo
@@ -126,14 +126,14 @@ jobs:
           chmod a+x ./build-bb.sh
           sudo ./build-bb.sh "${{ inputs.bb_ver }}" "${{ matrix.boards.armbian_board }}" "${{ matrix.boards.armbian_imgname }}" "${{ matrix.boards.name }}"
 
-      - name: Create BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
+      - name: Create BoughBoot-${{ inputs.bb_ver }}
         uses: ncipollo/release-action@v1.13.0
         with:
           allowUpdates: true
-          commit: linux-6.7
-          name: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}
-          tag: BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-${{ env.DATE }}
+          name: BoughBoot-${{ inputs.bb_ver }}
+          tag: BoughBoot-${{ inputs.bb_ver }}
           replacesArtifacts: true
           prerelease: true
+          draft: true
           token: "${{ secrets.GITHUB_TOKEN }}"
           artifacts: out/*.xz

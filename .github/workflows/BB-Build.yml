@@ -6,7 +6,7 @@ on:
       bb_ver:
         description: version
         required: true
-        default: 1.0
+        default: "alpha2"
         type: string
       uboot_gh_repo:
         description: u-boot github repo
