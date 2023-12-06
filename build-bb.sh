@@ -4,20 +4,17 @@ bb_ver=$1
 armbian_board=$2
 armbian_imgname=$3
 boards_name=$4
-
+rootdir=$(pwd)
 if [[ "$bb_ver" == *"-dev"* ]]; then
-  version=$bb_ver
+  bb_ver=$bb_ver
 else
   if [ ! -d "$rootdir/build-bb/$bb_ver" ]; then
     bb_ver=${bb_ver}-dev
-    version=$bb_ver
   fi
 fi
 
-rootdir=$(pwd)
-NewName=BoughBoot-$version-$boards_name
+NewName=BoughBoot-$bb_ver-$boards_name
 echo bb_ver=$bb_ver
-echo version=$version
 echo armbian_board=$armbian_board
 echo armbian_imgname=$armbian_imgname
 echo boards_name=$boards_name
@@ -49,7 +46,7 @@ newimgsize=$((`sudo du -d0 2|awk '{print $1}'`+1536000))
 echo newimgsize is $newimgsize
 fallocate -l ${newimgsize}K $NewImg
 losetup -f $NewImg
-NewImgloopdev=`losetup |grep BoughBoot-$version-$boards_name | awk '{print $1}'`
+NewImgloopdev=`losetup |grep BoughBoot-$bb_ver-$boards_name | awk '{print $1}'`
 echo NewImgloopdev is $NewImgloopdev
 dd if=/dev/zero of=${NewImgloopdev} count=4096 bs=512
 parted --script ${NewImgloopdev} -- \
