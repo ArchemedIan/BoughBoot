@@ -4,10 +4,13 @@ sed 's|echo -e "Old partition table:\\n"|unset newpartition|g' -i /usr/lib/armbi
 rm /root/.not_logged_in_yet
 echo 'root:BoughBoot' | chpasswd
 hostname -b BoughBoot
-#apt update
+
+apt update
 apt install whiptail hostapd
+
 bakdir=$(pwd)
-cd $SDCARD/usr/share/plymouth/themes
+[ -d /usr/share/plymouth/themes ] || mkdir -p /usr/share/plymouth/themes
+cd /usr/share/plymouth/themes
 tar xvf /tmp/overlay/plymouth-bb.tar .
 cd $bakdir
 sed "s|^Theme=armbian|Theme=bb|g" -i /etc/plymouth/plymouthd.conf

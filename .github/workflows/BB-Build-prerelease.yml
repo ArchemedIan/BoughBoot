@@ -131,7 +131,7 @@ jobs:
         with:
           allowUpdates: true
           name: BoughBoot-${{ inputs.bb_ver }}
-          tag: BoughBoot-${{ inputs.bb_ver }}
+          tag: ${{ inputs.bb_ver }}
           replacesArtifacts: true
           prerelease: true
           draft: true
