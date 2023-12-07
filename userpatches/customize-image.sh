@@ -6,7 +6,7 @@ echo 'root:BoughBoot' | chpasswd
 hostname -b BoughBoot
 
 apt update
-apt install whiptail hostapd
+apt install whiptail hostapd gpm
 
 bakdir=$(pwd)
 [ -d /usr/share/plymouth/themes ] || mkdir -p /usr/share/plymouth/themes
