@@ -12,6 +12,7 @@ bakdir=$(pwd)
 [ -d /usr/share/plymouth/themes ] || mkdir -p /usr/share/plymouth/themes
 cd /usr/share/plymouth/themes
 tar xvf /tmp/overlay/plymouth-bb.tar .
+[ -d /usr/share/plymouth/themes/bb ] || exit  1
 cd $bakdir
 sed "s|^Theme=armbian|Theme=bb|g" -i /etc/plymouth/plymouthd.conf
 update-initramfs -u
