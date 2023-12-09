@@ -24,7 +24,7 @@ ls -l
 cd armbian
 ls -l
 if [[ "$bb_ver" == *"-desktop"* ]]; then
-  sudo --user $SUDO_USER ./compile.sh BOARD="${armbian_board}" BUILD_DESKTOP="yes" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="prebuilt" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
+  sudo --user $SUDO_USER ./compile.sh BOARD="${armbian_board}" BUILD_DESKTOP="yes" DESKTOP_ENVIRONMENT="gnome" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="prebuilt" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
 else
   sudo --user $SUDO_USER ./compile.sh BOARD="${armbian_board}" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="prebuilt" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
 
