@@ -18,12 +18,7 @@ echo bb_ver=$bb_ver
 echo armbian_board=$armbian_board
 echo armbian_imgname=$armbian_imgname
 echo boards_name=$boards_name
-if [[ "$bb_ver" == *"-desktop"* ]]; then
-  cp -r ./build-bb/userpatches-desktop ./armbian/
-  mv ./armbian/userpatches-desktop ./armbian/userpatches
-else
-  cp -r ./build-bb/userpatches ./armbian/
-fi
+cp -r ./build-bb/userpatches ./armbian/
 chmod a+x ./armbian/userpatches/customize-image.sh
 cd armbian
 sudo --user $SUDO_USER ./compile.sh BOARD="${armbian_board}" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="prebuilt" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
