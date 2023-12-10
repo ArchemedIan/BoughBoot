@@ -18,17 +18,15 @@ echo bb_ver=$bb_ver
 echo armbian_board=$armbian_board
 echo armbian_imgname=$armbian_imgname
 echo boards_name=$boards_name
-cp -r ./build-bb/userpatches ./armbian/
-chmod a+x ./armbian/userpatches/customize-image.sh
-ls -l
-cd armbian
-ls -l
 if [[ "$bb_ver" == *"-desktop"* ]]; then
-  sudo --user $SUDO_USER ./compile.sh docker BOARD="${armbian_board}" BUILD_DESKTOP="yes" DESKTOP_ENVIRONMENT="gnome" DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base" DESKTOP_APPGROUPS_SELECTED="browsers desktop_tools" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="prebuilt" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
+  cp -r ./build-bb/userpatches-desktop ./armbian/
+  mv ./armbian/userpatches-desktop ./armbian/userpatches
 else
-  sudo --user $SUDO_USER ./compile.sh BOARD="${armbian_board}" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="prebuilt" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
-
+  cp -r ./build-bb/userpatches ./armbian/
 fi
+chmod a+x ./armbian/userpatches/customize-image.sh
+cd armbian
+sudo --user $SUDO_USER ./compile.sh BOARD="${armbian_board}" BUILD_DESKTOP="no" VENDOR="BoughBoot" BRANCH="legacy" BUILD_MINIMAL="no" KERNEL_CONFIGURE="prebuilt" RELEASE="bookworm" BOOTFS_TYPE="ext4" WIREGUARD="no"
 cd ..
 cp armbian/output/images/$armbian_imgname bb/
 cd bb 
