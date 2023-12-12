@@ -1,0 +1,25 @@
+[/]
+list=['b1dcc9dd-5262-4d8d-a863-c897e6d979b9', '5b1d49f8-d0bb-45df-87d1-79834b0e305c']
+
+[:5b1d49f8-d0bb-45df-87d1-79834b0e305c]
+background-color='rgb(23,20,33)'
+custom-command='/boot/BB/BBMenu-cli.sh'
+exit-action='close'
+foreground-color='rgb(208,207,204)'
+login-shell=false
+palette=['rgb(0,0,0)', 'rgb(170,0,0)', 'rgb(0,170,0)', 'rgb(170,85,0)', 'rgb(0,0,170)', 'rgb(170,0,170)', 'rgb(0,170,170)', 'rgb(170,170,170)', 'rgb(85,85,85)', 'rgb(255,85,85)', 'rgb(85,255,85)', 'rgb(255,255,85)', 'rgb(85,85,255)', 'rgb(255,85,255)', 'rgb(85,255,255)', 'rgb(255,255,255)']
+scroll-on-keystroke=false
+scroll-on-output=true
+scrollback-unlimited=true
+scrollbar-policy='never'
+use-custom-command=true
+use-theme-colors=false
+visible-name='BootMenu'
+
+[:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(23,20,33)'
+foreground-color='rgb(208,207,204)'
+palette=['rgb(0,0,0)', 'rgb(170,0,0)', 'rgb(0,170,0)', 'rgb(170,85,0)', 'rgb(0,0,170)', 'rgb(170,0,170)', 'rgb(0,170,170)', 'rgb(170,170,170)', 'rgb(85,85,85)', 'rgb(255,85,85)', 'rgb(85,255,85)', 'rgb(255,255,85)', 'rgb(85,85,255)', 'rgb(255,85,255)', 'rgb(85,255,255)', 'rgb(255,255,255)']
+scrollback-unlimited=true
+use-theme-colors=false
+visible-name='Default'

@@ -1,6 +1,0 @@
-BBDevType=unset
-BBDevNum=unset
-BBRootNum=unset
-BBfdtfile=unset
-BBoverlays=unset
-BBEnvFileSize=unset

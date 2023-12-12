@@ -5,51 +5,32 @@ rm /root/.not_logged_in_yet
 echo 'root:BoughBoot' | chpasswd
 passwd -u root
 
-
+# todo: figure out why this doesnt work
 hostname -b BoughBoot
 
 apt update
+apt install -yy whiptail hostapd dialog xserver-xorg xinit xfce4 xfce4-session xfce4-goodies lightdm gnome-terminal
+sed "s|auth.*required.*pam_succeed.* root quiet_success|#auth    required        pam_succeed_if.so user != root quiet_success|g" -i /etc/pam.d/lightdm-password
+sed "s|auth.*required.*pam_succeed.* root quiet_success|#auth    required        pam_succeed_if.so user != root quiet_success|g" -i /etc/pam.d/lightdm-autologin
+mv /etc/lightdm/lightdm.conf{,.orig}
+cat <<EOF > /etc/lightdm/lightdm.conf
+[LightDM]
 
-apt install whiptail hostapd dialog gnome gnome-session fonts-dejavu chromium-browser mdadm unar -yy
+[Seat:*]
+autologin-user = root
+autologin-user-timeout = 0
 
-dpkg-reconfigure gdm3
+[XDMCPServer]
 
-systemctl set-default graphical.target
-mv /etc/gdm3/daemon.conf{,.orig}
+[VNCServer]
 
-cat <<EOF > /etc/gdm3/daemon.conf
-# GDM configuration storage
-#
-# See /usr/share/gdm/gdm.schemas for a list of available options.
-
-[daemon]
-# Uncomment the line below to force the login screen to use Xorg
-#WaylandEnable=false
-
-# Enabling automatic login
-AutomaticLoginEnable = true
-AutomaticLogin = root
-
-# Enabling timed login
-#  TimedLoginEnable = true
-#  TimedLogin = user1
-#  TimedLoginDelay = 10
-
-[security]
-AllowRoot=true
-[xdmcp]
-
-[chooser]
-
-[debug]
-# Uncomment the line below to turn on debugging
-# More verbose logs
-# Additionally lets the X server dump core if it crashes
-#Enable=true
 EOF
-sed "s|auth.*required.*pam_succeed.* root quiet_success|#auth    required        pam_succeed_if.so user != root quiet_success|g" -i /etc/pam.d/gdm-password
-sed "s|auth.*required.*pam_succeed.* root quiet_success|#auth    required        pam_succeed_if.so user != root quiet_success|g" -i /etc/pam.d/gdm-autologin
+cp /tmp/overlay/.dialogrc /root/.dialogrc
+mkdir -p /root/.config/autostart
+cp /tmp/overlay/bb.desktop /root/.config/autostart/BoughBoot.desktop
+dconf load /org/gnome/terminal/legacy/profiles:/ < /tmp/overlay/gnome-terminal-profiles.dconf
 
+# plymouth boot Theme
 mv /usr/share/desktop-base/debian-logos /usr/share/desktop-base/debian-logos.bak
 bakdir=$(pwd)
 [ -d /usr/share/plymouth/themes ] || mkdir -p /usr/share/plymouth/themes
