@@ -14,6 +14,7 @@ export width=`bc <<< "scale=0; ($cols/16)*13"`
 echo $boxheight $width $listheight
 
 #systemctl start systemctl disable openvpn.service unattended-upgrades.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
+
 export NEWT_COLORS='
 root=brown,black
 border=brown,black
@@ -38,7 +39,6 @@ disentry=white,white
 compactbutton=brown,black
 actsellistbox=black,brown
 sellistbox=white,white
-
 '
 
 
@@ -68,7 +68,7 @@ BootListLines=0
         BootListLines=$listheight
     fi
 
-    bootselection=$(whiptail --backtitle "BoughBoot Bootmenu Ver: $BBVer" --title "OS List" --menu "Select a Boot Option:" $boxheight $width $BootListLines "${BBMenuList[@]}" 3>&1 1>&2 2>&3)
+    bootselection=$(dialog --colors --backtitle "BoughBoot Bootmenu Ver: $BBVer" --title "OS List" --menu "Select a Boot Option:" $boxheight $width $BootListLines "${BBMenuList[@]}" 3>&1 1>&2 2>&3)
 
     if [[ $? -gt 0 ]]; then
         exit 0
@@ -100,7 +100,7 @@ reboot
 
 
 exit 0
-SELECTED=($(whiptail --title "SELECT PACKAGES TO INSTALL" --checklist \
+SELECTED=($(dialog --title "SELECT PACKAGES TO INSTALL" --checklist \
 "List of packages" 20 100 10 \
 "chrome" "browser" OFF \
 "pip3" "Python package manager" OFF \
@@ -112,12 +112,12 @@ while [[ ${COUNTER} -le 100 ]]; do
   sleep 1
   COUNTER=$(($COUNTER+10))
   echo ${COUNTER}
-done | whiptail --gauge "Running Data Loader" 6 50 ${COUNTER}
+done | dialog --gauge "Running Data Loader" 6 50 ${COUNTER}
 
 
 echo ${SELECTED[@]}
 
-bootselection=$(whiptail --title "Choose Only One Package" --radiolist \
+bootselection=$(dialog --title "Choose Only One Package" --radiolist \
 "List of packages" 20 100 10 \
 "chrome" "browser" OFF \
 "pip3" "Python package manager" OFF \
@@ -126,30 +126,30 @@ bootselection=$(whiptail --title "Choose Only One Package" --radiolist \
 
 echo $bootselection
 
-NEW_USER=$(whiptail --title "input test" --inputbox "Username to be created" 8 40 3>&1 1>&2 2>&3)
+NEW_USER=$(dialog --title "input test" --inputbox "Username to be created" 8 40 3>&1 1>&2 2>&3)
 
-whiptail --title "input test" --infobox "NEW_USER = $NEW_USER" 8 78
+dialog --title "input test" --infobox "NEW_USER = $NEW_USER" 8 78
 
 
 
-whiptail --title "theme testing" --msgbox "ðŸŠtesting this thememememememe" 8 78
-whiptail --title "CONFIRMATION" --yesno "Should I proceed" 8 78
+dialog --title "theme testing" --msgbox "ðŸŠtesting this thememememememe" 8 78
+dialog --title "CONFIRMATION" --yesno "Should I proceed" 8 78
 if [[ $? -eq 0 ]]; then
-  whiptail --title "MESSAGE" --msgbox "Process completed successfully." 8 78
+  dialog --title "MESSAGE" --msgbox "Process completed successfully." 8 78
 elif [[ $? -eq 1 ]]; then
-  whiptail --title "MESSAGE" --msgbox "Cancelling Process since user pressed <NO>." 8 78
+  dialog --title "MESSAGE" --msgbox "Cancelling Process since user pressed <NO>." 8 78
 elif [[ $? -eq 255 ]]; then
-  whiptail --title "MESSAGE" --msgbox "User pressed ESC. Exiting the script" 8 78
+  dialog --title "MESSAGE" --msgbox "User pressed ESC. Exiting the script" 8 78
 fi
 
-whiptail --textbox --scrolltext /boot/boot.cmd 18 80
+dialog --textbox --scrolltext /boot/boot.cmd 18 80
 
-PASSWORD=$(whiptail --title "password test" --passwordbox "Choose a strong password" 8 78 3>&1 1>&2 2>&3)
+PASSWORD=$(dialog --title "password test" --passwordbox "Choose a strong password" 8 78 3>&1 1>&2 2>&3)
 
-whiptail --title "password test" --infobox "PASSWORD = $PASSWORD" 8 78
+dialog --title "password test" --infobox "PASSWORD = $PASSWORD" 8 78
 sleep 3
 
-NEW_USER=$(whiptail --title "input test" --inputbox "Username to be created" 8 40 3>&1 1>&2 2>&3)
+NEW_USER=$(dialog --title "input test" --inputbox "Username to be created" 8 40 3>&1 1>&2 2>&3)
 
-whiptail --title "input test" --infobox "NEW_USER = $NEW_USER" 8 78
+dialog --title "input test" --infobox "NEW_USER = $NEW_USER" 8 78
 sleep 3
