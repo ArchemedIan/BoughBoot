@@ -10,6 +10,7 @@ hostname -b BoughBoot
 
 apt update
 apt install -yy whiptail hostapd dialog xserver-xorg xinit xfce4 xfce4-session xfce4-goodies lightdm gnome-terminal
+dpkg-reconfigure lightdm
 sed "s|auth.*required.*pam_succeed.* root quiet_success|#auth    required        pam_succeed_if.so user != root quiet_success|g" -i /etc/pam.d/lightdm-password
 sed "s|auth.*required.*pam_succeed.* root quiet_success|#auth    required        pam_succeed_if.so user != root quiet_success|g" -i /etc/pam.d/lightdm-autologin
 mv /etc/lightdm/lightdm.conf{,.orig}
