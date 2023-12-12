@@ -28,8 +28,8 @@ autologin-user-timeout = 0
 EOF
 cp /tmp/overlay/.dialogrc /root/.dialogrc
 mkdir -p /root/.config/autostart
-cp /tmp/overlay/bb.desktop /root/.config/autostart/BoughBoot.desktop
-dconf load /org/gnome/terminal/legacy/profiles:/ < /tmp/overlay/gnome-terminal-profiles.dconf
+cp /tmp/overlay/BoughBoot.desktop /root/.config/autostart/BoughBoot.desktop || exit 1
+dconf load /org/gnome/terminal/legacy/profiles:/ < /tmp/overlay/gnome-terminal-profiles.dconf || exit 1
 
 # plymouth boot Theme
 mv /usr/share/desktop-base/debian-logos /usr/share/desktop-base/debian-logos.bak
