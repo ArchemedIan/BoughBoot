@@ -1,8 +1,12 @@
 #!/usr/bin/bash
+
+BBRoot=/boot/BB
+#test -f $BBRoot/BBFirstRun.sh && rm $BBRoot/BBFirstRun.sh
+
 BBVer=alpha1
-bbenv=/boot/BB/BoughBootEnv.txt
-nextbootEnv=/boot/BB/NextBootEnv.txt
-NBEnvs=/boot/BB/NBEnvs
+bbenv=$BBRoot/BoughBootEnv.txt
+nextbootEnv=$BBRoot/NextBootEnv.txt
+NBEnvs=$BBRoot/NBEnvs
 cd $(dirname "$0")
 
 
@@ -13,7 +17,6 @@ export listheight=`bc <<< "scale=0; ($lines/16)*9"`
 export width=`bc <<< "scale=0; ($cols/16)*13"`
 echo $boxheight $width $listheight
 
-#systemctl start systemctl disable openvpn.service unattended-upgrades.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
 
 export NEWT_COLORS='
 root=brown,black
@@ -50,14 +53,13 @@ bootnow=
 bootselection=
 BootListLines=0
     #for bootEnv in $(ls "$NBEnvs/*.txt")
-     while read -d $'\0' bootEnv
+    while read -d $'\0' bootEnv
     do
         #echo inside for loop
         #echo getting bootname for $bootEnv
         export BootListLines=$((BootListLines+1))
         export BBMenuList+=("$(echo $(cat "$bootEnv"| grep BBMenuName=|cut -d '=' -f 2))")
         export BBMenuList+=("$(echo $(cat "$bootEnv" | grep BBMenuDescription=|cut -d '=' -f 2))")
-
     done< <(find $NBEnvs/*.txt -print0)
 
         #echo

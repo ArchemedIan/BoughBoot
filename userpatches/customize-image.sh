@@ -32,11 +32,31 @@ autologin-user-timeout = 0
 [VNCServer]
 
 EOF
+cat << EOF > /etc/systemd/system/BBFirstRun.service
+
+[Unit]
+Description=BB first run 
+Wants=network-online.target
+After=network.target network-online.target
+ConditionPathExists=/boot/BB/BBFirstRun.sh
+
+[Service]
+Type=idle
+RemainAfterExit=yes
+ExecStartpre=chmod a+x /boot/BB/BBFirstRun.sh
+ExecStart=/boot/BB/BBFirstRun.sh
+TimeoutStartSec=2min
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+systemctl daemon-reload
+systemctl enable /etc/systemd/system/BBFirstRun.service
 
 cp /tmp/overlay/.dialogrc /root/.dialogrc
-cp /tmp/overlay/armbian_first_run.txt /boot
-mkdir -p /root/.config/autostart
-cp /tmp/overlay/BoughBoot.desktop /root/.config/autostart/BoughBoot.desktop || exit 1
+#mkdir -p /root/.config/autostart
+cp /tmp/overlay/BoughBoot.desktop /etc/xdg/autostart/BoughBoot.desktop || exit 1
 cp /tmp/overlay/gnome-terminal-profiles.dconf /root/.config/gnome-terminal-profiles.dconf
 
 # plymouth boot Theme
