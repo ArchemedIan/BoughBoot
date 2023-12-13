@@ -7,15 +7,16 @@ BUILD_DESKTOP=$4
 
 echo 15032385536B | tee /root/.rootfs_resize
 sed 's|echo -e "Old partition table:\\n"|unset newpartition|g' -i /usr/lib/armbian/armbian-resize-filesystem
-rm /root/.not_logged_in_yet
-echo 'root:BoughBoot' | chpasswd
-passwd -u root
 
 # todo: figure out why this doesnt work
 hostname -b BoughBoot
+# for now:
+sed "s|orangepi5-plus|BoughBoot|g" -i etc/hostname
+sed "s|orangepi5-plus|BoughBoot|g" -i etc/hosts
+
 
 apt update
-apt install -yy dialog xserver-xorg xinit xfce4 xfce4-session xfce4-goodies lightdm gnome-terminal dconf-cli
+apt install -yy dialog xserver-xorg xinit xfce4 xfce4-session xfce4-goodies lightdm
 dpkg-reconfigure lightdm
 
 sed "s|auth.*required.*pam_succeed.* root quiet_success|#auth    required        pam_succeed_if.so user != root quiet_success|g" -i /etc/pam.d/lightdm-autologin
@@ -32,32 +33,30 @@ autologin-user-timeout = 0
 [VNCServer]
 
 EOF
-cat << EOF > /etc/systemd/system/BBFirstRun.service
 
-[Unit]
-Description=BB first run 
-Wants=network-online.target
-After=network.target network-online.target
-ConditionPathExists=/boot/BB/BBFirstRun.sh
+rsync -aHSAX -ih /etc/skel/ /root >/dev/null
+echo chmod a+x /boot/BB/*.sh > /root/.bashrc
+echo alias BBMenu-cli=/boot/BB/BBMenu-cli.sh >> /root/.bashrc
+echo alias BBMenu-cli.sh=/boot/BB/BBMenu-cli.sh >> /root/.bashrc
+echo alias BBMenu=/boot/BB/BBMenu-cli.sh >> /root/.bashrc
+echo alias bbmenu=/boot/BB/BBMenu-cli.sh >> /root/.bashrc
+echo alias bb=/boot/BB/BBMenu-cli.sh >> /root/.bashrc
+echo alias wifi=/boot/BB/wifi.sh>> /root/.bashrc
+echo "alias network=\"echo y| armbian-config main=Network\"">> /root/.bashrc
+#echo /boot/BB/BBMenu-cli.sh >> root/.bashrc >> root/.bashrc
 
-[Service]
-Type=idle
-RemainAfterExit=yes
-ExecStartpre=chmod a+x /boot/BB/BBFirstRun.sh
-ExecStart=/boot/BB/BBFirstRun.sh
-TimeoutStartSec=2min
-
-[Install]
-WantedBy=multi-user.target
-
-EOF
-systemctl daemon-reload
-systemctl enable /etc/systemd/system/BBFirstRun.service
-
+rm /root/.not_logged_in_yet
+echo 'root:BoughBoot' | chpasswd
+passwd -u root
+mkdir -p /root/.config/autostart
 cp /tmp/overlay/.dialogrc /root/.dialogrc
-#mkdir -p /root/.config/autostart
-cp /tmp/overlay/BoughBoot.desktop /etc/xdg/autostart/BoughBoot.desktop || exit 1
-cp /tmp/overlay/gnome-terminal-profiles.dconf /root/.config/gnome-terminal-profiles.dconf
+cp /tmp/overlay/BoughBoot.desktop /root/BoughBoot.desktop
+#cp /tmp/overlay/BoughBoot.desktop /etc/xdg/autostart/BoughBoot.desktop
+cp /tmp/overlay/BoughBoot.desktop /root/.config/autostart/BoughBoot.desktop
+chmod a+x /root/BoughBoot.desktop
+#chmod a+x /etc/xdg/autostart/BoughBoot.desktop
+chmod a+x /root/.config/autostart/BoughBoot.desktop
+chattr +i /root/.config/autostart/BoughBoot.desktop
 
 # plymouth boot Theme
 mv /usr/share/desktop-base/debian-logos /usr/share/desktop-base/debian-logos.bak
