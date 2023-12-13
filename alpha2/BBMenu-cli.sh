@@ -1,10 +1,14 @@
 #!/usr/bin/bash
-BBVer=alpha1
-bbenv=/boot/BB/BoughBootEnv.txt
-nextbootEnv=/boot/BB/NextBootEnv.txt
-NBEnvs=/boot/BB/NBEnvs
-cd $(dirname "$0")
+BBVer=alpha2
+BBRoot=/boot/BB
+bbenv=$BBRoot/BoughBootEnv.txt
+nextbootEnv=$BBRoot/NextBootEnv.txt
 
+[ -h $bbenv ] && bbenv=/BoughBootEnv.txt
+[ -h $nextbootEnv ] && nextbootEnv=/NextBootEnv.txt
+
+NBEnvs=$BBRoot/NBEnvs
+cd $(dirname "$0")
 
 lines=`tput lines`
 cols=`tput cols`
@@ -12,35 +16,6 @@ export boxheight=`bc <<< "scale=0; ($lines/16)*13"`
 export listheight=`bc <<< "scale=0; ($lines/16)*9"`
 export width=`bc <<< "scale=0; ($cols/16)*13"`
 echo $boxheight $width $listheight
-
-#systemctl start systemctl disable openvpn.service unattended-upgrades.service armbian-live-patch.service armbian-hardware-monitor.service >/dev/null 2>&1 &
-
-export NEWT_COLORS='
-root=brown,black
-border=brown,black
-window=brown,black
-shadow=brown,black
-title=brown,black
-textbox=brown,black
-button=black,brown
-actbutton=white,white
-checkbox=brown,black
-actcheckbox=black,brown
-entry=black,brown
-label=white,white
-listbox=brown,black
-actlistbox=black,brown
-acttextbox=white,white
-helpline=white,white
-roottext=brown,black
-emptyscale=black,black
-fullscale=brown,brown
-disentry=white,white
-compactbutton=brown,black
-actsellistbox=black,brown
-sellistbox=white,white
-'
-
 
 Bootmenu () {
     #echo function begin
@@ -84,9 +59,22 @@ BootListLines=0
 }
 
 #echo Starting bootmenu
-Bootmenu
-#echo Finished bootmenu
-if [ -z "$bootselection" ]; then exit 0; fi
+while :
+do
+  Bootmenu
+  #echo Finished bootmenu
+  if [ -z "$bootselection" ]; then continue; fi
+
+  if [[ "$bootselection" == "Exit BoughBoot" ]]; then exit 0; fi
+  
+  if [[ "$bootselection" == "Setup WiFi" ]]; then source $BBRoot/wifi.sh; continue ; fi
+
+  if [[ "$bootselection" == "Add OS Entry" ]]; then source $BBRoot/BBAddMenuEntry.sh; continue ; fi
+
+  break
+done
+
+
 #echo $bootselection
 #cp "$bootselection" "$nextbootEnv"
 cat "$bootselection" > "$nextbootEnv"

@@ -1,0 +1,9 @@
+BBMenuName=Add OS Entry
+BBMenuDescription=Add an entry for an installed OS to BoughBoot
+NBDevType=unset
+NBDevNum=unset
+NBBootNum=unset
+NBRootNum=unset
+NBOSType=unset
+NBPrefix=unset
+NBnow=unset

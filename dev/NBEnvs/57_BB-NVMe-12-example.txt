@@ -1,0 +1,9 @@
+BBMenuName=NVMe 1,2 example
+BBMenuDescription=Boot from NVMe: boot on part 1, root on part 2
+NBDevType=nvme
+NBDevNum=0
+NBBootNum=1
+NBRootNum=2
+NBOSType=ubuntu
+NBPrefix=/
+NBnow=1
