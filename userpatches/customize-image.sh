@@ -37,7 +37,7 @@ cp /tmp/overlay/.dialogrc /root/.dialogrc
 cp /tmp/overlay/armbian_first_run.txt /boot
 mkdir -p /root/.config/autostart
 cp /tmp/overlay/BoughBoot.desktop /root/.config/autostart/BoughBoot.desktop || exit 1
-
+cp /tmp/overlay/gnome-terminal-profiles.dconf /root/.config/gnome-terminal-profiles.dconf
 
 # plymouth boot Theme
 mv /usr/share/desktop-base/debian-logos /usr/share/desktop-base/debian-logos.bak
