@@ -1,21 +1,5 @@
 #!/usr/bin/bash
-BBVer=alpha2
-BBRoot=/boot/BB
-bbenv=$BBRoot/BoughBootEnv.txt
-nextbootEnv=$BBRoot/NextBootEnv.txt
-
-[ -h $bbenv ] && bbenv=/BoughBootEnv.txt
-[ -h $nextbootEnv ] && nextbootEnv=/NextBootEnv.txt
-
-NBEnvs=$BBRoot/NBEnvs
-cd $(dirname "$0")
-
-lines=`tput lines`
-cols=`tput cols`
-export boxheight=`bc <<< "scale=0; ($lines/16)*13"`
-export listheight=`bc <<< "scale=0; ($lines/16)*9"`
-export width=`bc <<< "scale=0; ($cols/16)*13"`
-echo $boxheight $width $listheight
+if  [ "$BBEnvLoaded" != 1 ] ; then source $( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/BBMenu-Env.sh; fi
 
 Bootmenu () {
     #echo function begin
@@ -51,10 +35,13 @@ BootListLines=0
 
     while read -d $'\0' bootEnv
     do
-        if cat "$bootEnv"| grep -e "BBMenuName=$bootselection"
+      if cat "$bootEnv"| grep -e "BBMenuName=$bootselection"
+      then
+        if ! cat "$bootEnv"| grep -e "NBOSType=BBMenuItem"
         then
-            bootselection=$bootEnv
+          bootselection=$bootEnv
         fi
+      fi
     done< <(find $NBEnvs/*.txt -print0)
 }
 
@@ -62,15 +49,17 @@ BootListLines=0
 while :
 do
   Bootmenu
-  #echo Finished bootmenu
+  #echo "$bootselection"
+
   if [ -z "$bootselection" ]; then continue; fi
 
-  if [[ "$bootselection" == "Exit BoughBoot" ]]; then exit 0; fi
+  if [[ "$bootselection" == *"Exit BoughBoot"* ]]; then exit 0; fi
   
-  if [[ "$bootselection" == "Setup WiFi" ]]; then source $BBRoot/wifi.sh; continue ; fi
+  if [[ "$bootselection" == *"Setup WiFi"* ]]; then source $BBRoot/wifi.sh; continue ; fi
 
-  if [[ "$bootselection" == "Add OS Entry" ]]; then source $BBRoot/BBAddMenuEntry.sh; continue ; fi
+  if [[ "$bootselection" == *"Add OS Entry"* ]]; then source $BBRoot/BBAddMenuEntry.sh; continue ; fi
 
+#todo error out if file not found
   break
 done
 
@@ -79,9 +68,9 @@ done
 #cp "$bootselection" "$nextbootEnv"
 cat "$bootselection" > "$nextbootEnv"
 sync
-cat "$nextbootEnv"
+#cat "$nextbootEnv"
 
-sleep 3
+#sleep 3
 reboot
 
 
