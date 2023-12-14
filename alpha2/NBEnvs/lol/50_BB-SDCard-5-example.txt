@@ -1,0 +1,9 @@
+BBMenuName=SD Card 5 example
+BBMenuDescription=Boot from SD Card: boot and root on part 5
+NBDevType=mmc
+NBDevNum=1
+NBBootNum=5
+NBRootNum=5
+NBOSType=ubuntu
+NBPrefix=/
+NBnow=1

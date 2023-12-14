@@ -1,0 +1,9 @@
+BBMenuName=Exit BoughBoot
+BBMenuDescription=Exit to barebones XFCE4 desktop as root
+NBDevType=unset
+NBDevNum=unset
+NBBootNum=unset
+NBRootNum=unset
+NBOSType=BBMenuItem
+NBPrefix=unset
+NBnow=unset

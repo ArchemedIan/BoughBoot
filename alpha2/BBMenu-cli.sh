@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 if  [ "$BBEnvLoaded" != 1 ] ; then source $( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/BBMenu-Env.sh; fi
-
+cd $(dirname "$0")
 Bootmenu () {
     #echo function begin
 BBMenuList=()
@@ -67,10 +67,8 @@ done
 #echo $bootselection
 #cp "$bootselection" "$nextbootEnv"
 cat "$bootselection" > "$nextbootEnv"
-sync
-#cat "$nextbootEnv"
 
-#sleep 3
+
 reboot
 
 

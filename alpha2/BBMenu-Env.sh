@@ -8,7 +8,7 @@ nextbootEnv=$BBRoot/NextBootEnv.txt
 [ -h $nextbootEnv ] && nextbootEnv=/NextBootEnv.txt
 
 NBEnvs=$BBRoot/NBEnvs
-cd $(dirname "$0")
+dos2unix --force "${NBEnvs}"/*.txt >/dev/null
 
 lines=`tput lines`
 cols=`tput cols`

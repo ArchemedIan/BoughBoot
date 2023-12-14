@@ -1,0 +1,9 @@
+BBMenuName=Setup WiFi
+BBMenuDescription=Connect to a WiFi network
+NBDevType=unset
+NBDevNum=unset
+NBBootNum=unset
+NBRootNum=unset
+NBOSType=BBMenuItem
+NBPrefix=unset
+NBnow=unset

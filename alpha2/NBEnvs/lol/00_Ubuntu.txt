@@ -1,0 +1,9 @@
+BBMenuName=Ubuntu on eMMC
+BBMenuDescription=Spooky's ubuntu on eMMC
+NBDevType=mmc
+NBDevNum=0
+NBBootNum=1
+NBRootNum=2
+NBPrefix=/
+NBOSType=ubuntu
+NBnow=1
