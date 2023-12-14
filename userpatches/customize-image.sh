@@ -16,7 +16,7 @@ sed "s|orangepi5-plus|BoughBoot|g" -i etc/hosts
 
 
 apt update
-apt install -yy dialog xserver-xorg xinit xfce4 xfce4-session xfce4-goodies lightdm
+apt install -yy dialog xserver-xorg xinit xfce4 xfce4-session xfce4-goodies lightdm dos2unix
 dpkg-reconfigure lightdm
 
 sed "s|auth.*required.*pam_succeed.* root quiet_success|#auth    required        pam_succeed_if.so user != root quiet_success|g" -i /etc/pam.d/lightdm-autologin
