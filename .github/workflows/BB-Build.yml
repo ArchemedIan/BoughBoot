@@ -62,11 +62,7 @@ jobs:
           remove-haskell: 'true'
           remove-codeql: 'true'
           remove-docker-images: 'true'
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ inputs.armbian_gh_repo }}
-          ref: ${{ inputs.armbian_ref }}
+          
 
       - name: Toolchain
         run: |
