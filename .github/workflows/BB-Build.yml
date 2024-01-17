@@ -6,22 +6,7 @@ on:
       bb_ver:
         description: version
         required: true
-        default: "alpha2"
-        type: string
-      uboot_gh_repo:
-        description: u-boot github repo
-        required: true
-        default: ArchemedIan/u-boot-rockchip
-        type: string
-      uboot_ref:
-        description: u-boot ref
-        required: true
-        default: bb
-        type: string
-      rkbin_ref:
-        description: rkbin ref
-        required: true
-        default: master
+        default: "next"
         type: string
       armbian_gh_repo:
         description: armbian build github repo
@@ -33,6 +18,31 @@ on:
         required: true
         default: v23.11
         type: string
+      uboot_repo:
+        required: true
+        type: choice
+        description: u-boot git repo
+        options: 
+        - https://source.denx.de/u-boot/u-boot
+        - custom_repo
+      uboot_repo_custom:
+        description: custom u-boot git repo
+        required: false
+        type: string
+      uboot_ref:
+        required: true
+        type: choice
+        description: u-boot ref
+        options: 
+        - v2024.01
+        - v2023.10
+        - master
+        - custom_ref
+      uboot_ref_custom:
+        description: custom u-boot ref
+        required: false
+        type: string
+
 jobs:
   build:
     name: ${{ matrix.boards.name }}
@@ -94,19 +104,12 @@ jobs:
           ref: main
           path: build-bb
 
-      - name: Checkout rkbin - ${{ inputs.rkbin_ref }}
+      - name: Checkout u-boot-boughboot
         uses: actions/checkout@v3
         with:
-          repository: rockchip-linux/rkbin
-          ref: ${{ inputs.rkbin_ref }}
-          path: rkbin
-
-      - name: Checkout u-boot - ${{ inputs.uboot_ref }} from ${{ inputs.uboot_gh_repo }}
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ inputs.uboot_gh_repo }}
-          ref: ${{ inputs.uboot_ref }}
-          path: u-boot
+          repository: ArchemedIan/Opi5-u-boot-boughboot
+          ref: main
+          path: u-boot-boughboot
       
       - name: Checkout Armbian
         uses: actions/checkout@v3
@@ -117,22 +120,11 @@ jobs:
               
       - name: Build u-boot - ${{ matrix.boards.u-boot-defconfig }}
         run: |
-          export ROCKCHIP_TPL=../rkbin/$(confget -f rkbin/RKBOOT/RK3588MINIALL.ini -s LOADER_OPTION FlashData)
-          export BL31=../rkbin/$(confget -f rkbin/RKTRUST/RK3588TRUST.ini -s BL31_OPTION PATH)
-          cd u-boot
-          make mrproper
-          make ${{ matrix.boards.u-boot-defconfig }}
-          make KCFLAGS="-fno-peephole2" CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc)
+          cd u-boot-boughboot
+          chmod a+x ./build.sh 
+          ./build.sh "${{ inputs.uboot_ref }}" "${{ inputs.uboot_repo }}" "${{ matrix.boards.u-boot-defconfig }}" "${{ inputs.uboot_ref_custom }}" "${{ inputs.uboot_repo_custom}}" "${{ matrix.boards.name }}"
           cd ..
-          mkdir bb out
-          cp u-boot/u-boot* bb/
-          cp u-boot/idbloader.img bb/
-          cp u-boot/idbloader-spi.img bb/
-          cd bb
-          tar caf - . | xz -czT0 -6 > ../out/BoughBoot-${{ inputs.bb_ver }}-${{ matrix.boards.name }}-u-boot.tar.xz
-          cd ..
-          rm -rf u-boot
-      
+
       - name: Build Armbian - ${{ matrix.boards.armbian_board }}
         run: |
           cp build-bb/build-bb.sh .
