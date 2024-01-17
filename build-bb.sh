@@ -54,8 +54,9 @@ name 1 BoughBoot
 partprobe $NewImgloopdev
 mkfs.ext4 -L BoughBoot ${NewImgloopdev}p1
 partprobe $NewImgloopdev
-dd if=$rootdir/bb/idbloader.img of=${NewImgloopdev} seek=64 conv=notrunc status=none
-dd if=$rootdir/bb/u-boot.itb of=${NewImgloopdev} seek=16384 conv=notrunc status=none
+#dd if=$rootdir/bb/idbloader.img of=${NewImgloopdev} seek=64 conv=notrunc status=none
+#dd if=$rootdir/bb/u-boot.itb of=${NewImgloopdev} seek=16384 conv=notrunc status=none
+dd if=u-boot-boughboot/u-boot/u-boot-rockchip.bin of=${NewImgloopdev} seek=1 bs=32k conv=fsync
 tune2fs -O ^metadata_csum ${NewImgloopdev}p1
 partprobe $NewImgloopdev
 partprobe
@@ -66,20 +67,28 @@ rsync -aHSAX -ih 2/ $NewImgDir >/dev/null
 sync
 mkdir $NewImgDir/boot/u-boot-BoughBoot
 mkdir $rootdir/out/u-boot-BoughBoot/
-cp $rootdir/bb/u-boot* $NewImgDir/boot/u-boot-BoughBoot/
-cp $rootdir/bb/idbloader.img $NewImgDir/boot/u-boot-BoughBoot/
-cp $rootdir/bb/idbloader-spi.img $NewImgDir/boot/u-boot-BoughBoot/
+#cp $rootdir/bb/u-boot* $NewImgDir/boot/u-boot-BoughBoot/
+#cp $rootdir/bb/idbloader.img $NewImgDir/boot/u-boot-BoughBoot/
+#cp $rootdir/bb/idbloader-spi.img $NewImgDir/boot/u-boot-BoughBoot/
 #cp $rootdir/bb/u-boot* $rootdir/out/u-boot-BoughBoot/
 #cp $rootdir/bb/idbloader.img $rootdir/out/u-boot-BoughBoot/
 #cp $rootdir/bb/idbloader-spi.img $rootdir/out/u-boot-BoughBoot/
+cp u-boot-boughboot/u-boot/u-boot-rockchip.bin $NewImgDir/boot/u-boot-BoughBoot/
+cp u-boot-boughboot/u-boot/u-boot-rockchip-spi.bin $NewImgDir/boot/u-boot-BoughBoot/
+
 bakdir=$(pwd)
 cd $NewImgDir
 rootuuid=`blkid -s UUID -o value ${NewImgloopdev}p1`
+
 echo rootuuid is $rootuuid
 sed "s|UUID=.* / |UUID=$rootuuid / |g" -i etc/fstab
 sync
 sed  "s|UUID=.* /boot|#UUID= /boot|g" -i etc/fstab
-
+mkdir extlinux
+echo -e "label BoughBoot" > extlinux/extlinux.conf
+echo -e "  kernel /vmlinuz" >> extlinux/extlinux.conf
+echo -e "  append initrd=/initrd.img root=UUID=\"${rootuuid}\" rootwait rootfstype=ext4 console=ttyS2,1500000 splash plymouth.ignore-serial-consoles loglevel=1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory swapaccount=1" >> extlinux/extlinux.conf
+echo -e "  fdt /boot/dtb/rockchip/rk3588-orangepi-5-plus.dtb" >> extlinux/extlinux.conf
 
 mkdir boot/BB
 if [[ "$bb_ver" == *"-dev"* ]]; then
